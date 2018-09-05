@@ -32,6 +32,25 @@ void ServerReportThread::work()
 	CURL *curl = curl_easy_init();
 #endif
 
+	// Check for updates
+	{
+		std::string version { };
+		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &version);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, static_cast<size_t(__stdcall *)(char*, size_t, size_t, void*)>(
+			[](char* ptr, size_t size, size_t nmemb, void* resultBody) {
+			*(static_cast<std::string*>(resultBody)) += std::string{ ptr, size * nmemb };
+			return size * nmemb;
+		}
+		));
+		curl_easy_setopt(curl, CURLOPT_URL, WULINSHU_URL "/hook/version");
+		curl_easy_perform(curl);
+
+		if (version != "1.0.1")
+		{
+			MessageBoxA(NULL, "It appears that there is an update for Forklift. Please check the original thread on Shenmue Dojo or Nexus.", "Forklift Loader", MB_OK);
+		}
+	}
+
 	//PrintThread{} << "[ServerReportThread] Thread started!" << std::endl;
 	while (true)
 	{
