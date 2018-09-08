@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include <iostream>
+#include "MinHook.h"
 #include "HasherSmall.h"
 #include <vector>
 #include <algorithm>
@@ -17,15 +18,15 @@ void HasherSmall::Install()
 {
 	__int64 addr = (__int64)GetModuleHandle(NULL) + VersionManager::singleton()->getHasherSmallAddress();
 
-	if (MH_CreateHook((LPVOID)addr, &Hook, reinterpret_cast<LPVOID*>(&originalHasherSmall)) != MH_OK)
-	{
-		MessageBoxA(NULL, "Unable to create HasherSmall hook", "Forklift Loader Error", MB_OK);
-	}
+	MH_CreateHook((LPVOID)addr, &Hook, reinterpret_cast<LPVOID*>(&originalHasherSmall));
+	MH_EnableHook((LPVOID)addr);
+}
 
-	if (MH_EnableHook((LPVOID)addr) != MH_OK)
-	{
-		MessageBoxA(NULL, "Unable to enable HasherSmall hook", "Forklift Loader Error", MB_OK);
-	}
+void HasherSmall::Uninstall()
+{
+	__int64 addr = (__int64)GetModuleHandle(NULL) + VersionManager::singleton()->getHasherSmallAddress();
+
+	MH_DisableHook(reinterpret_cast<LPVOID>(addr));
 }
 
 unsigned __int64 __fastcall HasherSmall::Hook(__int64 a1)
@@ -35,8 +36,6 @@ unsigned __int64 __fastcall HasherSmall::Hook(__int64 a1)
 	auto res = originalHasherSmall((__int64)path);
 
 	auto hash = _byteswap_ulong((unsigned long)res);
-
-	//PrintThread{} << "[HasherSmall] " << std::hex << hash << " / Path: " << path << std::endl;
 
 	if (std::find(noted.begin(), noted.end(), path) == noted.end())
 	{

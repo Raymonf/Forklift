@@ -51,6 +51,9 @@ BOOL APIENTRY DllMain(HMODULE moduleHandle, DWORD reason, LPVOID reserved)
 	{
 		HandleCreation::Uninstall();
 		FileSize::Uninstall();
+#ifndef _DEBUG
+		HasherSmall::Uninstall();
+#endif
 		MH_Uninitialize();
 	}
 
