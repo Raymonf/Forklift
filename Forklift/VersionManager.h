@@ -5,11 +5,13 @@ enum class Version {
 	Coconut100,
 	Coconut101,
 	Coconut102,
+	Coconut103,
 
 	// Shenmue 2
 	Mango100,
 	Mango101,
 	Mango102,
+	Mango103,
 
 	Unknown
 };

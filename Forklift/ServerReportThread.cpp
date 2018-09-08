@@ -11,6 +11,7 @@
 #endif
 #include "VersionManager.h"
 
+#define FORKLIFT_VERSION "1.0.2"
 #define WULINSHU_URL "https://wulinshu.raymonf.me"
 
 std::vector<HashFile *> hashes;
@@ -45,7 +46,7 @@ void ServerReportThread::work()
 		curl_easy_setopt(curl, CURLOPT_URL, WULINSHU_URL "/hook/version");
 		curl_easy_perform(curl);
 
-		if (version != "1.0.1")
+		if (version != FORKLIFT_VERSION)
 		{
 			MessageBoxA(NULL, "It appears that there is an update for Forklift. Please check the original thread on Shenmue Dojo or Nexus.", "Forklift Loader", MB_OK);
 		}
