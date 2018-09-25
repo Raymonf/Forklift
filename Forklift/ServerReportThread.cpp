@@ -11,7 +11,7 @@
 #endif
 #include "VersionManager.h"
 
-#define FORKLIFT_VERSION "1.0.2"
+#define FORKLIFT_VERSION "1.0.3"
 #define WULINSHU_URL "https://wulinshu.raymonf.me"
 
 std::vector<HashFile *> hashes;
