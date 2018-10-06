@@ -33,6 +33,11 @@ VersionManager::VersionManager()
 		fileSizeAddress = 0x28E4C0; // GFEA
 		hasherSmallAddress = 0x2C3ED0;
 		break;
+	case Version::Coconut105:
+		handleCreationAddress = 0x28FE00;
+		fileSizeAddress = 0x290850;
+		hasherSmallAddress = 0x2C4D10;
+		break;
 
 	case Version::Mango100: // Shenmue v1.02 and v1.00 have the same EXEs?
 	case Version::Mango102: 
@@ -54,6 +59,11 @@ VersionManager::VersionManager()
 		handleCreationAddress = 0x36DFB0; // CFA
 		fileSizeAddress = 0x36EA60; // GFEA
 		hasherSmallAddress = 0x3CE3A0;
+		break;
+	case Version::Mango105:
+		handleCreationAddress = 0x3719D0;
+		fileSizeAddress = 0x372480;
+		hasherSmallAddress = 0x3D4F30;
 		break;
 	case Version::Unknown:
 	default:
@@ -94,12 +104,14 @@ const char * VersionManager::getGameId()
 	case Version::Coconut102:
 	case Version::Coconut103:
 	case Version::Coconut104:
+	case Version::Coconut105:
 		return "sm1";
 	case Version::Mango100:
 	case Version::Mango101:
 	case Version::Mango102:
 	case Version::Mango103:
 	case Version::Mango104:
+	case Version::Mango105:
 		return "sm2";
 	}
 
@@ -122,6 +134,8 @@ Version VersionManager::getVersion()
 		return Version::Coconut103;
 	case 0x5B91C154: // Shenmue 1 v1.04
 		return Version::Coconut104;
+	case 0x5BB4988B: // Shenmue 1 v1.05
+		return Version::Coconut105;
 
 	case 0x5B7FF098: // Shenmue 2 v1.00
 		return Version::Mango100;
@@ -131,6 +145,8 @@ Version VersionManager::getVersion()
 		return Version::Mango103;
 	case 0x5B91CC33: // Shenmue 2 v1.04
 		return Version::Mango104;
+	case 0x5BB4971E: // Shenmue 2 v1.05
+		return Version::Mango105;
 	default:
 		return Version::Unknown;
 	}

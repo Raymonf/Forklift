@@ -139,7 +139,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>CURL_STATICLIB;NDEBUG;FORKLIFT_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\include;$(SolutionDir)Libraries\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Raymonf\source\libs\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\include;G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\include;$(SolutionDir)Libraries\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
       <AdditionalDependencies>Normaliz.lib;CRYPT32.LIB;Wldap32.lib;Ws2_32.lib;libcurl_a.lib;libMinHook.x64.Release.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\Raymonf\source\libs\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
