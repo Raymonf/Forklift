@@ -28,7 +28,7 @@ void forkliftThread(LPVOID param)
 
 #ifndef _DEBUG
 	HasherSmall::Install();
-	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerReportThread::work, NULL, 0, NULL);
+	// CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerReportThread::work, NULL, 0, NULL);
 #endif
 	
 	if (Utilities::exists(".\\mods\\")) {
