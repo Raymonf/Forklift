@@ -39,9 +39,6 @@
     <ClCompile Include="VersionManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ServerReportThread.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HasherSmall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -75,9 +72,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="HasherSmall.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ServerReportThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PrintThread.h">

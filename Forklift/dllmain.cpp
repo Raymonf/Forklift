@@ -9,8 +9,8 @@
 #include "dllmain.h"
 
 #ifndef _DEBUG
-#include "HasherSmall.h"
-#include "ServerReportThread.h"
+// #include "HasherSmall.h"
+// #include "ServerReportThread.h"
 #endif
 
 void forkliftThread(LPVOID param)
@@ -27,7 +27,7 @@ void forkliftThread(LPVOID param)
 	}
 
 #ifndef _DEBUG
-	HasherSmall::Install();
+	// HasherSmall::Install();
 	// CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerReportThread::work, NULL, 0, NULL);
 #endif
 	
@@ -52,7 +52,7 @@ BOOL APIENTRY DllMain(HMODULE moduleHandle, DWORD reason, LPVOID reserved)
 		HandleCreation::Uninstall();
 		FileSize::Uninstall();
 #ifndef _DEBUG
-		HasherSmall::Uninstall();
+		// HasherSmall::Uninstall();
 #endif
 		MH_Uninitialize();
 	}
