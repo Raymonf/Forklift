@@ -6,6 +6,7 @@
 #include "Ledger.h"
 #include <process.h>
 #include <iostream>
+#include <filesystem>
 #include "dllmain.h"
 
 #ifndef _DEBUG
@@ -56,15 +57,14 @@ void forkliftThread(LPVOID param)
 	// CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerReportThread::work, NULL, 0, NULL);
 #endif
 	
-	if (Utilities::exists(".\\mods\\")) {
-		Ledger::getMods(".\\mods\\");
-		HandleCreation::Install();
-		FileSize::Install();
+	if (!Utilities::exists(".\\mods\\")) {
+		std::filesystem::create_directories(".\\mods\\");
+		Sleep(100);
 	}
-	else
-	{
-		MessageBoxA(NULL, "To get started with modding, create a folder called mods.", "Forklift Loader", MB_OK);
-	}
+
+	Ledger::getMods(".\\mods\\");
+	HandleCreation::Install();
+	FileSize::Install();
 }
 
 /// <summary>
@@ -73,12 +73,22 @@ void forkliftThread(LPVOID param)
 /// <param name=""></param>
 void RenderUI(void)
 {
+	ImGui::SetNextWindowSize(ImVec2(500, 500));
 	ImGui::Begin(APP_STRING);
-
-
-	ImGui::Text("Hello, World! from ImGui - Forklift Manager\n\n\tIf you see this message, Forklift is running in the background!");
-
-
+	ImGui::Checkbox("Enabled", &g_bHookEnabled);
+	ImGui::Text("\nFiles:");
+	for (auto& record : ledger) {
+		if (ImGui::Checkbox(" ", &record.enabled)) {
+			if (record.enabled) {
+				// enabled it
+			}
+			else 
+			{
+				// disabled it
+			}
+		}		
+		ImGui::SameLine(); ImGui::Text("[%d] %s\n", record.getSize(), record.getPath().c_str());
+	}
 	ImGui::End();
 }
 
@@ -232,11 +242,11 @@ void EvtIndiciumGameHooked(
 void EvtIndiciumGameUnhooked()
 {
 #ifdef WNDPROC_HOOK
-	auto& logger = Logger::get(__func__);
+	//auto& logger = Logger::get(__func__);
 
 	if (MH_DisableHook(MH_ALL_HOOKS) != MH_OK)
 	{
-		logger.fatal("Couldn't disable hooks, host process might crash");
+		//logger.fatal("Couldn't disable hooks, host process might crash");
 		return;
 	}
 
@@ -244,7 +254,7 @@ void EvtIndiciumGameUnhooked()
 
 	if (MH_Uninitialize() != MH_OK)
 	{
-		logger.fatal("Couldn't shut down hook engine, host process might crash");
+		//logger.fatal("Couldn't shut down hook engine, host process might crash");
 		return;
 	}
 #endif
@@ -530,6 +540,8 @@ void EvtIndiciumD3D11Present(
 
 			IndiciumEngineLogInfo("ImGui (DX11) initialized");
 
+			MessageBoxA(sd.OutputWindow, "Welcome to " APP_STRING "! Press F12 to toggle the overlay window during gameplay.", APP_STRING, MB_OK);
+
 			HookWindowProc(sd.OutputWindow);
 
 			initialized = true;
@@ -606,7 +618,7 @@ void HookWindowProc(HWND hWnd)
 {
 #ifdef WNDPROC_HOOK
 
-	auto& logger = Logger::get(__func__);
+	//auto& logger = Logger::get(__func__);
 
 	MH_STATUS ret;
 
@@ -644,7 +656,7 @@ void HookWindowProc(HWND hWnd)
 
 	if (MH_CreateHook(lptrWndProc, &DetourWindowProc, reinterpret_cast<LPVOID*>(&OriginalWindowProc)) != MH_OK)
 	{
-		logger.warning("Couldn't create hook for GWLP_WNDPROC");
+		//logger.warning("Couldn't create hook for GWLP_WNDPROC");
 		return;
 	}
 
@@ -680,9 +692,9 @@ LRESULT WINAPI DetourWindowProc(
 	static std::once_flag flag;
 	std::call_once(flag, []() { IndiciumEngineLogInfo("++ DetourWindowProc called"); });
 
-	ImGui_ImplWin32_WndProcHandler(hWnd, Msg, wParam, lParam);
+	return ImGui_ImplWin32_WndProcHandler(hWnd, Msg, wParam, lParam);
 
-	return OriginalWindowProc(hWnd, Msg, wParam, lParam);
+	//return OriginalWindowProc(hWnd, Msg, wParam, lParam);
 }
 
 #pragma endregion

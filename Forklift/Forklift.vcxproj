@@ -84,7 +84,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Libraries\Detours\lib.X64\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <IncludePath>$(SolutionDir)Libraries\imgui\;$(SolutionDir)Libraries\Indicium-Supra\include\;$(SolutionDir)Libraries\Detours\include\;$(SolutionDir)Libraries\Indicium-Supra\samples\Indicium-ImGui\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -151,13 +151,14 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <WholeProgramOptimization>false</WholeProgramOptimization>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>detours.lib;Indicium-Supra.lib;libMinHook.x64.Release.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>detours.lib;Indicium-Supra.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Raymonf\source\libs\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

@@ -3,6 +3,9 @@
 #define APP_VERSION		"0.1"
 #define APP_STRING		APP_TITLE " " APP_VERSION
 
+// We want to hook WndProc so we get the user input events
+#define WNDPROC_HOOK
+
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 #include "imgui.h"
