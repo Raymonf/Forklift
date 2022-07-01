@@ -1,0 +1,12 @@
+[submodule "Libraries/Indicium-Supra"]
+	path = Libraries/Indicium-Supra
+	url = https://github.com/nefarius/Indicium-Supra
+[submodule "Libraries/imgui"]
+	path = Libraries/imgui
+	url = https://github.com/ocornut/imgui
+[submodule "Libraries/Detours"]
+	path = Libraries/Detours
+	url = https://github.com/microsoft/Detours
+[submodule "Libraries/spdlog"]
+	path = Libraries/spdlog
+	url = https://github.com/gabime/spdlog
