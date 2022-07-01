@@ -32,7 +32,7 @@ void Ledger::getMods(std::string_view path)
 bool Ledger::isModPath(std::string_view path)
 {
 	std::string normalized = Utilities::normalizePath(path);
-	auto it = std::find_if(ledger.begin(), ledger.end(), [&normalized](LedgerRecord &record) { return Utilities::normalizePath(record.getPath()) == normalized; });
+	auto it = std::find_if(ledger.begin(), ledger.end(), [&normalized](LedgerRecord &record) { return record.enabled && (Utilities::normalizePath(record.getPath()) == normalized); });
 	if (it != ledger.end())
 		return true;
 	return false;
@@ -41,7 +41,7 @@ bool Ledger::isModPath(std::string_view path)
 LedgerRecord Ledger::getRecordFromPath(std::string_view path)
 {
 	std::string normalized = Utilities::normalizePath(path);
-	auto it = std::find_if(ledger.begin(), ledger.end(), [&normalized](LedgerRecord &record) { return Utilities::normalizePath(record.getPath()) == normalized; });
+	auto it = std::find_if(ledger.begin(), ledger.end(), [&normalized](LedgerRecord& record) { return record.enabled && (Utilities::normalizePath(record.getPath()) == normalized); });
 	if (it != ledger.end())
 		return *it;
 }

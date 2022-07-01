@@ -1,5 +1,7 @@
 #pragma once
 
+extern bool g_bHookEnabled;
+
 typedef signed __int64(__fastcall *handleCreationT)(__int64 a1, char *assetPath, __int64 a3);
 
 // Hook at function that gets a TAC path (or not) relative to a certain asset

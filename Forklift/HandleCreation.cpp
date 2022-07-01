@@ -7,6 +7,8 @@
 #include <iostream>
 #include <string>
 
+bool g_bHookEnabled = true;
+
 __int64 handleCreationAddr = reinterpret_cast<__int64>(GetModuleHandle(NULL)) + VersionManager::singleton()->getHandleCreationAddress();
 handleCreationT handleCreation = nullptr;
 
@@ -24,12 +26,15 @@ void HandleCreation::Uninstall()
 __int64 HandleCreation::Hook(__int64 a1, char *assetPath, __int64 a3)
 {
 	std::string path = assetPath;
-	if (Ledger::isModPath(path))
+	if (g_bHookEnabled) 
 	{
-		path = ".\\mods\\" + path;
+		if (Ledger::isModPath(path))
+		{
+			path = ".\\mods\\" + path;
 #ifdef _DEBUG
-		std::cout << "[ * ] " << path << std::endl;
+			std::cout << "[ * ] " << path << std::endl;
 #endif
+		}
 	}
 	auto ret = handleCreation(a1, const_cast<char *>(path.c_str()), a3);
 	return ret;
