@@ -10,3 +10,6 @@
 [submodule "Libraries/spdlog"]
 	path = Libraries/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Libraries/minhook"]
+	path = Libraries/minhook
+	url = https://github.com/TsudaKageyu/minhook
