@@ -1,4 +1,7 @@
 #pragma once
+#define APP_TITLE		"Forklift Manager"
+#define APP_VERSION		"0.1"
+#define APP_STRING		APP_TITLE " " APP_VERSION
 
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
