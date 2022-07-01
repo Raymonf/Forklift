@@ -37,6 +37,8 @@ t_WindowProc OriginalDefWindowProc = nullptr;
 t_WindowProc OriginalWindowProc = nullptr;
 PINDICIUM_ENGINE engine = nullptr;
 
+HINSTANCE g_hInstance;
+
 extern "C" __declspec(dllexport) void __v0() {}
 
 void forkliftThread(LPVOID param)
@@ -48,7 +50,7 @@ void forkliftThread(LPVOID param)
 	// Initialize MinHook
 	if (MH_Initialize() != MH_OK)
 	{
-		MessageBoxA(NULL, "Failed to initialize MinHook", "Forklift Loader", MB_OK);
+		MessageBoxA(NULL, "Failed to initialize MinHook", APP_STRING, MB_OK);
 		return;
 	}
 
@@ -65,6 +67,18 @@ void forkliftThread(LPVOID param)
 	Ledger::getMods(".\\mods\\");
 	HandleCreation::Install();
 	FileSize::Install();
+
+	// Sleep(10);
+
+	INDICIUM_ENGINE_CONFIG cfg;
+	INDICIUM_ENGINE_CONFIG_INIT(&cfg);
+	cfg.Direct3D.HookDirect3D11 = TRUE;
+	cfg.EvtIndiciumGameHooked = EvtIndiciumGameHooked;
+
+	//
+	// Bootstrap the engine. Allocates resources, establishes hooks etc.
+	// 
+	(void)IndiciumEngineCreate(static_cast<HMODULE>(g_hInstance), &cfg, NULL);
 }
 
 /// <summary>
@@ -73,21 +87,16 @@ void forkliftThread(LPVOID param)
 /// <param name=""></param>
 void RenderUI(void)
 {
-	ImGui::SetNextWindowSize(ImVec2(500, 500));
+	ImGui::SetNextWindowSizeConstraints(ImVec2(375, 475), ImVec2(FLT_MAX, FLT_MAX));
 	ImGui::Begin(APP_STRING);
 	ImGui::Checkbox("Enabled", &g_bHookEnabled);
-	ImGui::Text("\nFiles:");
-	for (auto& record : ledger) {
-		if (ImGui::Checkbox(" ", &record.enabled)) {
-			if (record.enabled) {
-				// enabled it
-			}
-			else 
-			{
-				// disabled it
-			}
-		}		
-		ImGui::SameLine(); ImGui::Text("[%d] %s\n", record.getSize(), record.getPath().c_str());
+	ImGui::Separator();
+	if (ledger.size()) {
+		ImGui::Text("\nFiles:");
+		ImGui::BeginChild("Mods");
+			for (auto& record : ledger)
+				ImGui::Checkbox(record.getPath().c_str(), &record.enabled);
+		ImGui::EndChild();
 	}
 	ImGui::End();
 }
@@ -109,6 +118,13 @@ void RenderUI(void)
  */
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 {
+	g_hInstance = hInstance;
+
+	//
+	// We don't need to get notified in thread attach- or detachments
+	// 
+	DisableThreadLibraryCalls(static_cast<HMODULE>(hInstance));
+
 	if (dwReason == DLL_PROCESS_ATTACH) {
 		_beginthread(forkliftThread, 0, nullptr);
 	}
@@ -120,46 +136,11 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 		// HasherSmall::Uninstall();
 #endif
 		MH_Uninitialize();
-	}
-
-	//
-	// We don't need to get notified in thread attach- or detachments
-	// 
-	DisableThreadLibraryCalls(static_cast<HMODULE>(hInstance));
-
-	INDICIUM_ENGINE_CONFIG cfg;
-	INDICIUM_ENGINE_CONFIG_INIT(&cfg);
-
-	cfg.Direct3D.HookDirect3D9 = TRUE;
-	cfg.Direct3D.HookDirect3D10 = TRUE;
-	cfg.Direct3D.HookDirect3D11 = TRUE;
-
-	cfg.EvtIndiciumGameHooked = EvtIndiciumGameHooked;
-
-	switch (dwReason)
-	{
-	case DLL_PROCESS_ATTACH:
-
-		//
-		// Bootstrap the engine. Allocates resources, establishes hooks etc.
-		// 
-		(void)IndiciumEngineCreate(
-			static_cast<HMODULE>(hInstance),
-			&cfg,
-			NULL
-		);
-
-		break;
-	case DLL_PROCESS_DETACH:
 
 		//
 		// Tears down the engine. Graceful shutdown, frees resources etc.
 		// 
 		(void)IndiciumEngineDestroy(static_cast<HMODULE>(hInstance));
-
-		break;
-	default:
-		break;
 	}
 
 	return TRUE;
@@ -540,7 +521,7 @@ void EvtIndiciumD3D11Present(
 
 			IndiciumEngineLogInfo("ImGui (DX11) initialized");
 
-			MessageBoxA(sd.OutputWindow, "Welcome to " APP_STRING "! Press F12 to toggle the overlay window during gameplay.", APP_STRING, MB_OK);
+			// MessageBoxA(sd.OutputWindow, "Welcome to " APP_STRING "!\n\nPress F11 to toggle Forklift during gameplay.\nPress F12 to toggle the overlay window during gameplay.", APP_STRING, MB_OK);
 
 			HookWindowProc(sd.OutputWindow);
 
@@ -552,6 +533,7 @@ void EvtIndiciumD3D11Present(
 		return;
 
 	TOGGLE_STATE(VK_F12, show_overlay);
+	TOGGLE_STATE(VK_F11, g_bHookEnabled);
 	if (!show_overlay)
 		return;
 

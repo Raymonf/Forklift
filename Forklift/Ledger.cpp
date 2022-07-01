@@ -11,6 +11,10 @@ std::vector<LedgerRecord> ledger;
 std::vector<LedgerRecord> recordsInDirectory(std::string_view path)
 {
 	std::vector<LedgerRecord> records;
+	if (!ledger.empty()) {
+		records.insert(records.end(), ledger.begin(), ledger.end());
+	}
+	
 	for (auto &p : std::filesystem::recursive_directory_iterator(path))
 	{
 		if (!p.is_directory())
@@ -18,7 +22,15 @@ std::vector<LedgerRecord> recordsInDirectory(std::string_view path)
 			std::string filePath = p.path().string();
 			// We only want the path relative to the path given.
 			filePath.erase(0, path.length());
-			records.push_back(LedgerRecord(filePath, p.file_size()));
+
+			// only insert new/unique entries
+			bool should_insert = true;
+			for (auto& record : records)
+				if (record.getPath() == filePath)
+					should_insert = false;
+
+			if (should_insert)
+				records.push_back(LedgerRecord(filePath, p.file_size()));
 		}
 	}
 	return records;
