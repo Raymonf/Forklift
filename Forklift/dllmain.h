@@ -1,8 +1,27 @@
 #pragma once
-#define APP_TITLE		"Forklift Manager"
-#define APP_VERSION		"0.1"
-#define APP_STRING		APP_TITLE " " APP_VERSION
 
+// BEGIN FORKLIFT CONFIGURATION
+// ====================================================================================================
+
+// Should be defined by Visual Studio for us..
+// #define FORKLIFT_MANAGER
+
+// Does not work yet.
+// #define SERVER_REPORT_THREAD
+
+#ifdef FORKLIFT_MANAGER
+#	define APP_TITLE		"Forklift Manager"
+#else
+#	define APP_TITLE		"Forklift"
+#endif
+#define APP_VERSION			"1.0"
+#define APP_STRING			APP_TITLE " " APP_VERSION
+
+
+// END FORKLIFT CONFIGURATION
+// ====================================================================================================
+
+// Incidium-Supra
 // We want to hook WndProc so we get the user input events
 #define WNDPROC_HOOK
 

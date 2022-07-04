@@ -1,18 +1,24 @@
 #include "stdafx.h"
+
+#include "dllmain.h"
+
 #include "MinHook.h"
+
 #include "Utilities.h"
 #include "HandleCreation.h"
 #include "FileSize.h"
 #include "Ledger.h"
+
 #include <process.h>
 #include <iostream>
 #include <filesystem>
-#include "dllmain.h"
 
-#ifndef _DEBUG
-// #include "HasherSmall.h"
-// #include "ServerReportThread.h"
+#ifdef SERVER_REPORT_THREAD
+	#include "HasherSmall.h"
+	#include "ServerReportThread.h"
 #endif
+
+#ifdef FORKLIFT_MANAGER
 
 // 
 // Detours
@@ -39,6 +45,8 @@ PINDICIUM_ENGINE engine = nullptr;
 
 HINSTANCE g_hInstance;
 
+#endif
+
 /* Dummy export to help when used via IAT injection */
 extern "C" __declspec(dllexport) void __v0() {}
 
@@ -55,9 +63,11 @@ void forkliftThread(LPVOID param)
 		return;
 	}
 
-#ifndef _DEBUG
-	// HasherSmall::Install();
-	// CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerReportThread::work, NULL, 0, NULL);
+#ifdef SERVER_REPORT_THREAD
+#	ifndef _DEBUG
+		HasherSmall::Install();
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerReportThread::work, NULL, 0, NULL);
+#	endif
 #endif
 	
 	if (!Utilities::exists(".\\mods\\")) {
@@ -69,8 +79,7 @@ void forkliftThread(LPVOID param)
 	HandleCreation::Install();
 	FileSize::Install();
 
-	// Sleep(10);
-
+#ifdef FORKLIFT_MANAGER
 	INDICIUM_ENGINE_CONFIG cfg;
 	INDICIUM_ENGINE_CONFIG_INIT(&cfg);
 	cfg.Direct3D.HookDirect3D11 = TRUE;
@@ -80,8 +89,10 @@ void forkliftThread(LPVOID param)
 	// Bootstrap the engine. Allocates resources, establishes hooks etc.
 	// 
 	(void)IndiciumEngineCreate(static_cast<HMODULE>(g_hInstance), &cfg, NULL);
+#endif
 }
 
+#ifdef FORKLIFT_MANAGER
 /// <summary>
 /// Renders the UI for Forklift Manager
 /// </summary>
@@ -95,31 +106,19 @@ void RenderUI(void)
 	if (ledger.size()) {
 		ImGui::Text("\nFiles:");
 		ImGui::BeginChild("Mods");
-			for (auto& record : ledger)
-				ImGui::Checkbox(record.getPath().c_str(), &record.enabled);
+		for (auto& record : ledger)
+			ImGui::Checkbox(record.getPath().c_str(), &record.enabled);
 		ImGui::EndChild();
 	}
 	ImGui::End();
 }
+#endif
 
-/**
- * \fn  BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
- *
- * \brief   DLL main entry point. Only Indicium engine initialization or shutdown should happen
- *          here to avoid deadlocks.
- *
- * \author  Benjamin "Nefarius" Höglinger
- * \date    16.06.2018
- *
- * \param   hInstance   The instance handle.
- * \param   dwReason    The call reason.
- * \param   parameter3  Unused.
- *
- * \return  TRUE on success, FALSE otherwise (will abort loading the library).
- */
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 {
+#ifdef FORKLIFT_MANAGER
 	g_hInstance = hInstance;
+#endif
 
 	//
 	// We don't need to get notified in thread attach- or detachments
@@ -133,19 +132,24 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 	{
 		HandleCreation::Uninstall();
 		FileSize::Uninstall();
-#ifndef _DEBUG
-		// HasherSmall::Uninstall();
+
+#ifdef SERVER_REPORT_THREAD
+#	ifndef _DEBUG
+		HasherSmall::Uninstall();
+#	endif
 #endif
+
 		MH_Uninitialize();
 
-		//
-		// Tears down the engine. Graceful shutdown, frees resources etc.
-		// 
+#ifdef FORKLIFT_MANAGER
 		(void)IndiciumEngineDestroy(static_cast<HMODULE>(hInstance));
+#endif
 	}
 
 	return TRUE;
 }
+
+#ifdef FORKLIFT_MANAGER
 
 /**
  * \fn	void EvtIndiciumGameHooked( PINDICIUM_ENGINE EngineHandle, const INDICIUM_D3D_VERSION GameVersion )
@@ -731,6 +735,4 @@ bool ImGui_ImplWin32_UpdateMouseCursor()
 
 #pragma endregion
 
-
-
-
+#endif
