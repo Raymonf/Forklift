@@ -39,6 +39,7 @@ PINDICIUM_ENGINE engine = nullptr;
 
 HINSTANCE g_hInstance;
 
+/* Dummy export to help when used via IAT injection */
 extern "C" __declspec(dllexport) void __v0() {}
 
 void forkliftThread(LPVOID param)
@@ -87,7 +88,7 @@ void forkliftThread(LPVOID param)
 /// <param name=""></param>
 void RenderUI(void)
 {
-	ImGui::SetNextWindowSizeConstraints(ImVec2(375, 475), ImVec2(FLT_MAX, FLT_MAX));
+	ImGui::SetNextWindowSizeConstraints(ImVec2(375, 475), ImVec2(500, 500));
 	ImGui::Begin(APP_STRING);
 	ImGui::Checkbox("Enabled", &g_bHookEnabled);
 	ImGui::Separator();
