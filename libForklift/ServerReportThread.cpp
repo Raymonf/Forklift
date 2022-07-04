@@ -1,3 +1,5 @@
+#ifdef SERVER_REPORT_THREAD
+
 #include "stdafx.h"
 #include <vector>
 #include <mutex>
@@ -48,7 +50,7 @@ void ServerReportThread::work()
 
 		if (version != FORKLIFT_VERSION)
 		{
-			MessageBoxA(NULL, "It appears that there is an update for Forklift. Please check the original thread on Shenmue Dojo or Nexus.", "Forklift Loader", MB_OK);
+			MessageBoxA(NULL, "It appears that there is an update for Forklift. Please check the original thread on Shenmue Dojo or Nexus.", "libForklift", MB_OK);
 		}
 	}
 
@@ -120,3 +122,5 @@ void ServerReportThread::work()
 		//PrintThread{} << "--- NOT POSTED ---" << std::endl;
 	}
 }
+
+#endif
