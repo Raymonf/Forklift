@@ -13,72 +13,81 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\Indicium-ImGui">
+      <UniqueIdentifier>{c6f49fcb-09ac-4d29-8af4-d2bbaa1e44fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Indicium-ImGui">
+      <UniqueIdentifier>{83279da9-9049-43c6-954c-d29d38ae4c6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\ImGui">
+      <UniqueIdentifier>{81907077-be8f-446d-9f58-2de068b49245}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ImGui">
+      <UniqueIdentifier>{300be723-60d5-4550-a739-9e0050647fa1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_dx9.cpp">
+      <Filter>Source Files\Indicium-ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Utilities.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_dx10.cpp">
+      <Filter>Source Files\Indicium-ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="HandleCreation.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_dx11.cpp">
+      <Filter>Source Files\Indicium-ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="FileSize.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_win32.cpp">
+      <Filter>Source Files\Indicium-ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="Ledger.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Libraries\imgui\imgui.cpp">
+      <Filter>Source Files\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="LedgerRecord.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Libraries\imgui\imgui_draw.cpp">
+      <Filter>Source Files\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="VersionManager.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Libraries\imgui\imgui_tables.cpp">
+      <Filter>Source Files\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="HasherSmall.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PrintThread.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\Libraries\imgui\imgui_widgets.cpp">
+      <Filter>Source Files\ImGui</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HandleCreation.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FileSize.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Ledger.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LedgerRecord.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VersionManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="dllmain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HasherSmall.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_dx10.h">
+      <Filter>Header Files\Indicium-ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="PrintThread.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_dx11.h">
+      <Filter>Header Files\Indicium-ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="HashFile.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_win32.h">
+      <Filter>Header Files\Indicium-ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_dx9.h">
+      <Filter>Header Files\Indicium-ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libraries\imgui\imconfig.h">
+      <Filter>Header Files\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libraries\imgui\imgui.h">
+      <Filter>Header Files\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libraries\imgui\imgui_internal.h">
+      <Filter>Header Files\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libraries\imgui\imstb_rectpack.h">
+      <Filter>Header Files\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libraries\imgui\imstb_textedit.h">
+      <Filter>Header Files\ImGui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Libraries\imgui\imstb_truetype.h">
+      <Filter>Header Files\ImGui</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,29 +1,85 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Forklift", "Forklift\Forklift.vcxproj", "{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ForkliftManager", "Forklift\Forklift.vcxproj", "{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}"
+	ProjectSection(ProjectDependencies) = postProject
+		{37489709-8054-4903-9C49-A79846049FC9} = {37489709-8054-4903-9C49-A79846049FC9}
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A} = {B158DF80-0A5C-4423-9558-7A3A363F1A6A}
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C} = {DB383579-DA7F-48C0-AB1F-7C4C93544E2C}
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE} = {F142A341-5EE0-442D-A15F-98AE9B48DBAE}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Indicium-Supra", "Libraries\Indicium-Supra\src\Indicium-Supra\Indicium-Supra.vcxproj", "{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{742B3C35-B02A-42C8-BEEB-ABC88AF85FAA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Detours", "Libraries\Detours\vc\Detours.vcxproj", "{37489709-8054-4903-9C49-A79846049FC9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libMinHook", "Libraries\minhook\build\VC16\libMinHook.vcxproj", "{F142A341-5EE0-442D-A15F-98AE9B48DBAE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libForklift", "libForklift\libForklift.vcxproj", "{B158DF80-0A5C-4423-9558-7A3A363F1A6A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE} = {F142A341-5EE0-442D-A15F-98AE9B48DBAE}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
-		Debug|x86 = Debug|x86
+		Manager_Debug|x64 = Manager_Debug|x64
+		Manager_Release|x64 = Manager_Release|x64
 		Release|x64 = Release|x64
-		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Debug|x64.ActiveCfg = Debug|x64
 		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Debug|x64.Build.0 = Debug|x64
-		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Debug|x86.ActiveCfg = Debug|Win32
-		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Debug|x86.Build.0 = Debug|Win32
+		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Manager_Debug|x64.ActiveCfg = Manager_Debug|x64
+		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Manager_Debug|x64.Build.0 = Manager_Debug|x64
+		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Manager_Release|x64.ActiveCfg = Manager_Release|x64
+		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Manager_Release|x64.Build.0 = Manager_Release|x64
 		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Release|x64.ActiveCfg = Release|x64
 		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Release|x64.Build.0 = Release|x64
-		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Release|x86.ActiveCfg = Release|Win32
-		{70A56FA2-6F0D-4ACD-8D56-DBEE17041581}.Release|x86.Build.0 = Release|Win32
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}.Debug|x64.ActiveCfg = Debug_LIB|x64
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}.Debug|x64.Build.0 = Debug_LIB|x64
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}.Manager_Debug|x64.ActiveCfg = Debug_LIB|x64
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}.Manager_Debug|x64.Build.0 = Debug_LIB|x64
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}.Manager_Release|x64.ActiveCfg = Release_LIB|x64
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}.Manager_Release|x64.Build.0 = Release_LIB|x64
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}.Release|x64.ActiveCfg = Release_LIB|x64
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C}.Release|x64.Build.0 = Release_LIB|x64
+		{37489709-8054-4903-9C49-A79846049FC9}.Debug|x64.ActiveCfg = DebugMDd|x64
+		{37489709-8054-4903-9C49-A79846049FC9}.Debug|x64.Build.0 = DebugMDd|x64
+		{37489709-8054-4903-9C49-A79846049FC9}.Manager_Debug|x64.ActiveCfg = DebugMDd|x64
+		{37489709-8054-4903-9C49-A79846049FC9}.Manager_Debug|x64.Build.0 = DebugMDd|x64
+		{37489709-8054-4903-9C49-A79846049FC9}.Manager_Release|x64.ActiveCfg = ReleaseMD|x64
+		{37489709-8054-4903-9C49-A79846049FC9}.Manager_Release|x64.Build.0 = ReleaseMD|x64
+		{37489709-8054-4903-9C49-A79846049FC9}.Release|x64.ActiveCfg = ReleaseMD|x64
+		{37489709-8054-4903-9C49-A79846049FC9}.Release|x64.Build.0 = ReleaseMD|x64
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE}.Debug|x64.ActiveCfg = Debug|x64
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE}.Debug|x64.Build.0 = Debug|x64
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE}.Manager_Debug|x64.ActiveCfg = Debug|x64
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE}.Manager_Debug|x64.Build.0 = Debug|x64
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE}.Manager_Release|x64.ActiveCfg = Release|x64
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE}.Manager_Release|x64.Build.0 = Release|x64
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE}.Release|x64.ActiveCfg = Release|x64
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE}.Release|x64.Build.0 = Release|x64
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A}.Debug|x64.ActiveCfg = Debug_Lib|x64
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A}.Debug|x64.Build.0 = Debug_Lib|x64
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A}.Manager_Debug|x64.ActiveCfg = Debug_Lib|x64
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A}.Manager_Debug|x64.Build.0 = Debug_Lib|x64
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A}.Manager_Release|x64.ActiveCfg = Release_Lib|x64
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A}.Manager_Release|x64.Build.0 = Release_Lib|x64
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A}.Release|x64.ActiveCfg = Release_Lib|x64
+		{B158DF80-0A5C-4423-9558-7A3A363F1A6A}.Release|x64.Build.0 = Release_Lib|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DB383579-DA7F-48C0-AB1F-7C4C93544E2C} = {742B3C35-B02A-42C8-BEEB-ABC88AF85FAA}
+		{37489709-8054-4903-9C49-A79846049FC9} = {742B3C35-B02A-42C8-BEEB-ABC88AF85FAA}
+		{F142A341-5EE0-442D-A15F-98AE9B48DBAE} = {742B3C35-B02A-42C8-BEEB-ABC88AF85FAA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A8F7E76D-6EF0-4AF9-AB73-338A4AD47C9F}

@@ -2,6 +2,7 @@
 
 #include "LedgerRecord.h"
 #include <string>
+#include <vector>
 
 class Ledger
 {
@@ -11,3 +12,4 @@ public:
 	static LedgerRecord getRecordFromPath(std::string_view path);
 };
 
+extern std::vector<LedgerRecord> ledger;

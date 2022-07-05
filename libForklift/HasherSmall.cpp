@@ -7,7 +7,9 @@
 #include <fstream>
 #include "PrintThread.h"
 #include "HashFile.h"
-// #include "ServerReportThread.h"
+#ifdef SERVER_REPORT_THREAD
+	#include "ServerReportThread.h"
+#endif
 #include "VersionManager.h"
 
 tGetHashSmall originalHasherSmall = NULL;
@@ -54,7 +56,9 @@ unsigned __int64 __fastcall HasherSmall::Hook(__int64 a1)
 				HashFile* hashFile = new HashFile();
 				hashFile->path = buffer;
 				hashFile->hash = hash;
-				// ServerReportThread::push(hashFile);
+#ifdef SERVER_REPORT_THREAD
+				ServerReportThread::push(hashFile);
+#endif
 			}
 		}
 		catch (std::exception &ex)

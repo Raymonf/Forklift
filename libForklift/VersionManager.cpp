@@ -87,7 +87,7 @@ VersionManager::VersionManager()
 		break;
 	case Version::Unknown:
 	default:
-		MessageBoxA(NULL, "Unable to determine the Shenmue game version. Please check for an update.", "Forklift Loader Error", MB_OK);
+		MessageBoxA(NULL, "Unable to determine the Shenmue game version. Please check for an update.", "libForklift", MB_OK);
 		break;
 	}
 }
