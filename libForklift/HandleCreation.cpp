@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <Windows.h>
 #include "HandleCreation.h"
 #include "VersionManager.h"
 #include "MinHook.h"

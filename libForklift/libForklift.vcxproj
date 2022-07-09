@@ -44,6 +44,7 @@
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'">
     <PlatformToolset>v143</PlatformToolset>
     <ConfigurationType>StaticLibrary</ConfigurationType>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -59,9 +60,11 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|x64'">
     <IncludePath>$(SolutionDir)Libraries\minhook\include;$(SolutionDir)Libraries\Detours\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\Debug;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'">
     <IncludePath>$(SolutionDir)Libraries\minhook\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\Release;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_Lib|Win32'">
     <ClCompile>
@@ -81,33 +84,38 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>libMinHook.x64.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Lib|x64'">
     <ClCompile>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <WholeProgramOptimization>true</WholeProgramOptimization>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
     </ClCompile>
+    <Lib>
+      <AdditionalDependencies>libMinHook.x64.lib</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="dllmain.h" />
     <ClInclude Include="FileSize.h" />
     <ClInclude Include="HandleCreation.h" />
     <ClInclude Include="HasherSmall.h" />
     <ClInclude Include="HashFile.h" />
     <ClInclude Include="Ledger.h" />
     <ClInclude Include="LedgerRecord.h" />
+    <ClInclude Include="libForklift.h" />
     <ClInclude Include="PrintThread.h" />
     <ClInclude Include="ServerReportThread.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="VersionManager.h" />
   </ItemGroup>
@@ -117,6 +125,7 @@
     <ClCompile Include="HasherSmall.cpp" />
     <ClCompile Include="Ledger.cpp" />
     <ClCompile Include="LedgerRecord.cpp" />
+    <ClCompile Include="libForklift.cpp" />
     <ClCompile Include="PrintThread.cpp" />
     <ClCompile Include="ServerReportThread.cpp" />
     <ClCompile Include="Utilities.cpp" />

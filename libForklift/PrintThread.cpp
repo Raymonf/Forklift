@@ -1,5 +1,5 @@
 #pragma once
-#include "stdafx.h"
+#include <Windows.h>
 #include "PrintThread.h"
 
 std::mutex PrintThread::_mutexPrint{};

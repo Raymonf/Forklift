@@ -15,9 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="dllmain.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="FileSize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -42,13 +39,13 @@
     <ClInclude Include="ServerReportThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Utilities.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VersionManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="libForklift.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -78,6 +75,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VersionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="libForklift.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

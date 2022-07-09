@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <Windows.h>
 #include "FileSize.h"
 #include "VersionManager.h"
 #include "MinHook.h"
@@ -22,7 +22,10 @@ void FileSize::Uninstall()
 
 unsigned __int64 __fastcall FileSize::Hook(const char *lpFileName)
 {
-	if (Ledger::isModPath(lpFileName))
-		return Ledger::getRecordFromPath(lpFileName).getSize();
+	if (Ledger::isModPath(lpFileName)) {
+		auto entry = Ledger::getRecordFromPath(lpFileName).getEntry();
+		return entry.file_size();
+	}
+
 	return getSize(lpFileName);
 }

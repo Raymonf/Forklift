@@ -1,155 +1,96 @@
-#include "stdafx.h"
-
 #include "dllmain.h"
 
-#include "MinHook.h"
-
-#include "Utilities.h"
-#include "HandleCreation.h"
-#include "FileSize.h"
-#include "Ledger.h"
-
-#include <process.h>
-#include <iostream>
-#include <filesystem>
-
-#ifdef SERVER_REPORT_THREAD
-	#include "HasherSmall.h"
-	#include "ServerReportThread.h"
-#endif
-
 #ifdef FORKLIFT_MANAGER
-
-// 
-// Detours
-// 
-#include <detours.h>
-
-// 
-// STL
-// 
-#include <mutex>
-
-// 
-// ImGui includes
-// 
-#include <imgui.h>
-#include "imgui_impl_dx9.h"
-#include "imgui_impl_dx10.h"
-#include "imgui_impl_dx11.h"
-#include "imgui_impl_win32.h"
-
 t_WindowProc OriginalDefWindowProc = nullptr;
 t_WindowProc OriginalWindowProc = nullptr;
 PINDICIUM_ENGINE engine = nullptr;
 
 HINSTANCE g_hInstance;
-
-#endif
-
-/* Dummy export to help when used via IAT injection */
-extern "C" __declspec(dllexport) void __v0() {}
-
-void forkliftThread(LPVOID param)
-{
-#ifdef _DEBUG
-	Utilities::setupConsole();
-#endif
-
-	// Initialize MinHook
-	if (MH_Initialize() != MH_OK)
-	{
-		MessageBoxA(NULL, "Failed to initialize MinHook", APP_STRING, MB_OK);
-		return;
-	}
-
-#ifdef SERVER_REPORT_THREAD
-#	ifndef _DEBUG
-		HasherSmall::Install();
-		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)ServerReportThread::work, NULL, 0, NULL);
-#	endif
-#endif
-	
-	if (!Utilities::exists(".\\mods\\")) {
-		std::filesystem::create_directories(".\\mods\\");
-		Sleep(100);
-	}
-
-	Ledger::getMods(".\\mods\\");
-	HandleCreation::Install();
-	FileSize::Install();
-
-#ifdef FORKLIFT_MANAGER
-	INDICIUM_ENGINE_CONFIG cfg;
-	INDICIUM_ENGINE_CONFIG_INIT(&cfg);
-	cfg.Direct3D.HookDirect3D11 = TRUE;
-	cfg.EvtIndiciumGameHooked = EvtIndiciumGameHooked;
-
-	//
-	// Bootstrap the engine. Allocates resources, establishes hooks etc.
-	// 
-	(void)IndiciumEngineCreate(static_cast<HMODULE>(g_hInstance), &cfg, NULL);
-#endif
-}
-
-#ifdef FORKLIFT_MANAGER
-/// <summary>
-/// Renders the UI for Forklift Manager
-/// </summary>
-/// <param name=""></param>
-void RenderUI(void)
-{
-	ImGui::SetNextWindowSizeConstraints(ImVec2(375, 475), ImVec2(500, 500));
-	ImGui::Begin(APP_STRING);
-	ImGui::Checkbox("Enabled", &g_bHookEnabled);
-	ImGui::Separator();
-	if (ledger.size()) {
-		ImGui::Text("\nFiles:");
-		ImGui::BeginChild("Mods");
-		for (auto& record : ledger)
-			ImGui::Checkbox(record.getPath().c_str(), &record.enabled);
-		ImGui::EndChild();
-	}
-	ImGui::End();
-}
 #endif
 
 BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 {
-#ifdef FORKLIFT_MANAGER
-	g_hInstance = hInstance;
-#endif
-
-	//
-	// We don't need to get notified in thread attach- or detachments
-	// 
-	DisableThreadLibraryCalls(static_cast<HMODULE>(hInstance));
-
-	if (dwReason == DLL_PROCESS_ATTACH) {
-		_beginthread(forkliftThread, 0, nullptr);
-	}
-	else if (dwReason == DLL_PROCESS_DETACH)
-	{
-		HandleCreation::Uninstall();
-		FileSize::Uninstall();
-
-#ifdef SERVER_REPORT_THREAD
-#	ifndef _DEBUG
-		HasherSmall::Uninstall();
+#	ifdef FORKLIFT_MANAGER
+		g_hInstance = hInstance;
 #	endif
-#endif
 
-		MH_Uninitialize();
+	DisableThreadLibraryCalls(static_cast<HMODULE>(hInstance));
+	if (dwReason == DLL_PROCESS_ATTACH) {
+		Forklift::initialize();
 
-#ifdef FORKLIFT_MANAGER
-		(void)IndiciumEngineDestroy(static_cast<HMODULE>(hInstance));
-#endif
+#		ifdef FORKLIFT_MANAGER
+			// Initialize Indicium-Supra
+			INDICIUM_ENGINE_CONFIG cfg;
+			INDICIUM_ENGINE_CONFIG_INIT(&cfg);
+			cfg.Direct3D.HookDirect3D11 = TRUE;
+			cfg.Direct3D.HookDirect3D10 = FALSE;
+			cfg.Direct3D.HookDirect3D9 = FALSE;
+			cfg.EvtIndiciumGameHooked = EvtIndiciumGameHooked;
+
+			(void)IndiciumEngineCreate(static_cast<HMODULE>(g_hInstance), &cfg, NULL);
+#		endif
 	}
+	else if (dwReason == DLL_PROCESS_DETACH) {
+		Forklift::destroy();
 
+#		ifdef FORKLIFT_MANAGER
+			(void)IndiciumEngineDestroy(static_cast<HMODULE>(hInstance));
+#		endif
+	}
 	return TRUE;
 }
 
 #ifdef FORKLIFT_MANAGER
+// Renders the UI for Forklift Manager
+void RenderUI(void)
+{
+	ImGui::SetNextWindowSizeConstraints(ImVec2(375, 475), ImVec2(500, 500));
+	ImGui::Begin(APP_STRING);
+	if (ImGui::Checkbox("Enabled", &g_bHookEnabled)) {
+		if (g_bHookEnabled) {
+			ledger.clear();
+			Ledger::getMods(".\\mods\\");
+		}
+	}
+	ImGui::Separator();
+
+#ifdef _DEBUG
+	if (ImGui::Button("Refresh Ledger")) {
+		ledger.clear();
+		Ledger::getMods(".\\mods\\");
+	}
+	ImGui::SameLine();
+
+	if (ImGui::Button("Clear Ledger")) {
+		ledger.clear();
+	}
+	ImGui::SameLine();
+
+	// Specifies the first # of entries to set to false in the test subroutine
+	#define TEST_SET_FIRST_NUM 10
+	if (ImGui::Button(std::string("Toggle first " + std::to_string(TEST_SET_FIRST_NUM)).c_str())) {
+		int counter = 0;
+		for (LedgerRecord& tmp : ledger) {
+			tmp.enabled = !tmp.enabled;
+			if (counter >= TEST_SET_FIRST_NUM)
+				break;
+			else ++counter;
+		}
+	}
+	ImGui::Separator();
+#endif
+
+	if (ledger.size()) {
+		ImGui::Text("\nFiles:");
+		ImGui::BeginChild("Mods");
+		for (LedgerRecord& record : ledger) {
+			ImGui::Checkbox(record.getPath().c_str(), &record.enabled);
+		}
+		ImGui::EndChild();
+		ImGui::Separator();
+	}
+	ImGui::End();
+}
 
 /**
  * \fn	void EvtIndiciumGameHooked( PINDICIUM_ENGINE EngineHandle, const INDICIUM_D3D_VERSION GameVersion )
@@ -181,7 +122,7 @@ void EvtIndiciumGameHooked(
 	ImGui::StyleColorsDark();
 	//ImGui::StyleColorsClassic();
 
-	INDICIUM_D3D9_EVENT_CALLBACKS d3d9;
+	/*INDICIUM_D3D9_EVENT_CALLBACKS d3d9;
 	INDICIUM_D3D9_EVENT_CALLBACKS_INIT(&d3d9);
 	d3d9.EvtIndiciumD3D9PrePresent = EvtIndiciumD3D9Present;
 	d3d9.EvtIndiciumD3D9PreReset = EvtIndiciumD3D9PreReset;
@@ -194,7 +135,7 @@ void EvtIndiciumGameHooked(
 	INDICIUM_D3D10_EVENT_CALLBACKS_INIT(&d3d10);
 	d3d10.EvtIndiciumD3D10PrePresent = EvtIndiciumD3D10Present;
 	d3d10.EvtIndiciumD3D10PreResizeBuffers = EvtIndiciumD3D10PreResizeBuffers;
-	d3d10.EvtIndiciumD3D10PostResizeBuffers = EvtIndiciumD3D10PostResizeBuffers;
+	d3d10.EvtIndiciumD3D10PostResizeBuffers = EvtIndiciumD3D10PostResizeBuffers;*/
 
 	INDICIUM_D3D11_EVENT_CALLBACKS d3d11;
 	INDICIUM_D3D11_EVENT_CALLBACKS_INIT(&d3d11);
@@ -204,12 +145,12 @@ void EvtIndiciumGameHooked(
 
 	switch (GameVersion)
 	{
-	case IndiciumDirect3DVersion9:
+	/*case IndiciumDirect3DVersion9:
 		IndiciumEngineSetD3D9EventCallbacks(EngineHandle, &d3d9);
 		break;
 	case IndiciumDirect3DVersion10:
 		IndiciumEngineSetD3D10EventCallbacks(EngineHandle, &d3d10);
-		break;
+		break;*/
 	case IndiciumDirect3DVersion11:
 		IndiciumEngineSetD3D11EventCallbacks(EngineHandle, &d3d11);
 		break;
@@ -245,6 +186,8 @@ void EvtIndiciumGameUnhooked()
 	}
 #endif
 }
+
+/*
 
 #pragma region D3D9(Ex)
 
@@ -478,6 +421,8 @@ void EvtIndiciumD3D10PostResizeBuffers(
 }
 
 #pragma endregion
+
+*/
 
 #pragma region D3D11
 

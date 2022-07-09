@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <Windows.h>
 #include "Utilities.h"
 #include <iostream>
 #include <string>

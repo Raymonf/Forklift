@@ -3,17 +3,25 @@
 #include <filesystem>
 #include <iostream>
 
-LedgerRecord::LedgerRecord(std::string_view path, __int64 size)
-	:path{path}, size{size}
+LedgerRecord::LedgerRecord(std::filesystem::directory_entry entry)
+	: entry { entry }
 {
+	enabled = true;
 }
+
 
 std::string LedgerRecord::getPath()
 {
-	return path;
+	std::string filePath = entry.path().string();
+
+	// We only want the path relative to the path given.
+	filePath.erase(0, Utilities::curr_path.length());
+
+	return filePath;
 }
 
-__int64 LedgerRecord::getSize()
+std::filesystem::directory_entry LedgerRecord::getEntry()
 {
-	return size;
+	entry.refresh();
+	return entry;
 }

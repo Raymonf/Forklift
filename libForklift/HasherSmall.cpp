@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include <Windows.h>
 #include <iostream>
 #include "MinHook.h"
 #include "HasherSmall.h"

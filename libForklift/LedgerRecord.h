@@ -1,17 +1,17 @@
 #pragma once
 
-#include "stdafx.h"
+#include <Windows.h>
+#include <filesystem>
 #include <string>
 
 class LedgerRecord
 {
 public:
-	LedgerRecord(std::string_view path, __int64 size);
+	LedgerRecord(std::filesystem::directory_entry entry);
 	std::string getPath();
-	__int64 getSize();
+	std::filesystem::directory_entry getEntry();
 
-	bool enabled = true;
+	bool enabled;
 private:
-	std::string path;
-	__int64 size = 0;
+	std::filesystem::directory_entry entry;
 };

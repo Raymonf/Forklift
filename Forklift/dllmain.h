@@ -17,10 +17,19 @@
 #define APP_VERSION			"1.0"
 #define APP_STRING			APP_TITLE " " APP_VERSION
 
-
 // END FORKLIFT CONFIGURATION
 // ====================================================================================================
 
+#ifdef SERVER_REPORT_THREAD
+#	include "HasherSmall.h"
+#	include "ServerReportThread.h"
+#endif
+
+#include "libForklift.h"
+
+#include "MinHook.h"
+
+#ifdef FORKLIFT_MANAGER
 // Incidium-Supra
 // We want to hook WndProc so we get the user input events
 #define WNDPROC_HOOK
@@ -114,3 +123,28 @@ TOGGLE_STATE(int key, bool& toggle)
 		pressedPast = true;
 	}
 }
+
+
+// 
+// Detours
+// 
+#include <detours.h>
+
+// 
+// STL
+// 
+#include <mutex>
+
+// 
+// ImGui includes
+// 
+#include <imgui.h>
+//#include "imgui_impl_dx9.h"
+//#include "imgui_impl_dx10.h"
+#include "imgui_impl_dx11.h"
+#include "imgui_impl_win32.h"
+
+#endif
+
+/* Dummy export to help when used via IAT injection */
+extern "C" __declspec(dllexport) void __v0() {}
