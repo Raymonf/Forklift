@@ -24,12 +24,12 @@ void Forklift::initialize()
 #		endif
 #	endif
 
-	if (!std::filesystem::exists(".\\mods\\")) {
-		std::filesystem::create_directories(".\\mods\\");
+	if (!std::filesystem::exists(LIBFORKLIFT_MODS_DIR)) {
+		std::filesystem::create_directories(LIBFORKLIFT_MODS_DIR);
 		Sleep(100);
 	}
 
-	Ledger::getMods(".\\mods\\");
+	Ledger::getMods(LIBFORKLIFT_MODS_DIR);
 
 	HandleCreation::Install();
 	FileSize::Install();
@@ -39,6 +39,7 @@ void Forklift::destroy()
 {
 	g_bHookEnabled = false;
 
+	ledger.clear();
 	HandleCreation::Uninstall();
 	FileSize::Uninstall();
 

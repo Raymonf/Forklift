@@ -1,5 +1,7 @@
 #pragma once
 
+#define LIBFORKLIFT_MODS_DIR		".\\mods\\"
+
 #include <string>
 #include <filesystem>
 #include <process.h>

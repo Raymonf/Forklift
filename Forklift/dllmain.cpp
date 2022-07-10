@@ -1,10 +1,6 @@
 #include "dllmain.h"
 
 #ifdef FORKLIFT_MANAGER
-t_WindowProc OriginalDefWindowProc = nullptr;
-t_WindowProc OriginalWindowProc = nullptr;
-PINDICIUM_ENGINE engine = nullptr;
-
 HINSTANCE g_hInstance;
 #endif
 
@@ -41,6 +37,10 @@ BOOL WINAPI DllMain(HINSTANCE hInstance, DWORD dwReason, LPVOID)
 }
 
 #ifdef FORKLIFT_MANAGER
+t_WindowProc OriginalDefWindowProc = nullptr;
+t_WindowProc OriginalWindowProc = nullptr;
+PINDICIUM_ENGINE engine = nullptr;
+
 // Renders the UI for Forklift Manager
 void RenderUI(void)
 {
@@ -49,7 +49,7 @@ void RenderUI(void)
 	if (ImGui::Checkbox("Enabled", &g_bHookEnabled)) {
 		if (g_bHookEnabled) {
 			ledger.clear();
-			Ledger::getMods(".\\mods\\");
+			Ledger::getMods(LIBFORKLIFT_MODS_DIR);
 		}
 	}
 	ImGui::Separator();
@@ -57,7 +57,7 @@ void RenderUI(void)
 #ifdef _DEBUG
 	if (ImGui::Button("Refresh Ledger")) {
 		ledger.clear();
-		Ledger::getMods(".\\mods\\");
+		Ledger::getMods(LIBFORKLIFT_MODS_DIR);
 	}
 	ImGui::SameLine();
 
