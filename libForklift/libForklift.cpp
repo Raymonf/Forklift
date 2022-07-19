@@ -1,5 +1,9 @@
 #include "libForklift.h"
+
 #include "MinHook.h"
+
+#include <string>
+#include <iostream>
 
 bool Forklift::g_bHookEnabled = true;
 std::string_view Utilities::curr_path;

@@ -44,26 +44,25 @@ PINDICIUM_ENGINE engine = nullptr;
 // Renders the UI for Forklift Manager
 void RenderUI(void)
 {
+	auto ResetLedger = []() {
+		ledger.clear();
+		Ledger::getMods(LIBFORKLIFT_MODS_DIR);
+	};
+
 	ImGui::SetNextWindowSizeConstraints(ImVec2(375, 475), ImVec2(500, 500));
 	ImGui::Begin(APP_STRING);
-	if (ImGui::Checkbox("Enabled", &g_bHookEnabled)) {
-		if (g_bHookEnabled) {
-			ledger.clear();
-			Ledger::getMods(LIBFORKLIFT_MODS_DIR);
-		}
-	}
+	if (ImGui::Checkbox("Enabled", &g_bHookEnabled))
+		if (g_bHookEnabled)
+			ResetLedger();
 	ImGui::Separator();
 
 #ifdef _DEBUG
-	if (ImGui::Button("Refresh Ledger")) {
-		ledger.clear();
-		Ledger::getMods(LIBFORKLIFT_MODS_DIR);
-	}
+	if (ImGui::Button("Refresh Ledger"))
+		ResetLedger();
 	ImGui::SameLine();
 
-	if (ImGui::Button("Clear Ledger")) {
+	if (ImGui::Button("Clear Ledger"))
 		ledger.clear();
-	}
 	ImGui::SameLine();
 
 	// Specifies the first # of entries to set to false in the test subroutine
@@ -72,9 +71,8 @@ void RenderUI(void)
 		int counter = 0;
 		for (LedgerRecord& tmp : ledger) {
 			tmp.enabled = !tmp.enabled;
-			if (counter >= TEST_SET_FIRST_NUM)
+			if (++counter >= TEST_SET_FIRST_NUM)
 				break;
-			else ++counter;
 		}
 	}
 	ImGui::Separator();
