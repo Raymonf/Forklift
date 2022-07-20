@@ -1,5 +1,6 @@
 #pragma once
 
+#define LIBFORKLIFT_TAG				"v1.0.6a"
 #define LIBFORKLIFT_MODS_DIR		".\\mods\\"
 
 #include <string>
