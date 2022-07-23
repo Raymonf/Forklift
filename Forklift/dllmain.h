@@ -121,6 +121,8 @@ TOGGLE_STATE(int key, bool& toggle)
 		toggle = !toggle;
 
 		pressedPast = true;
+
+		Sleep(1000);
 	}
 }
 
