@@ -76,12 +76,10 @@ bool compare_online_tag_to_our_tag(const char* szRepoAndOwner, const char* szCur
 static void update_thread(void) {
 	if (!compare_online_tag_to_our_tag("Raymonf/Forklift", LIBFORKLIFT_TAG)) {
 		int res = MessageBoxA(NULL, "Your version of Forklift is out-of-date!\n\nPlease download the latest version after clicking the OK button or press the cancel button to ignore this message.", "Forklift" " " LIBFORKLIFT_TAG, MB_OKCANCEL);
-		switch (res) {
-			case IDOK: {
-				ShellExecuteA(NULL, "open", "https://github.com/Raymonf/Forklift/releases/latest", NULL, NULL, SW_SHOWNORMAL);
-				exit(-1);		// cya~!
-				break;
-			}
+
+		if (res == IDOK) {
+			ShellExecuteA(NULL, "open", "https://github.com/Raymonf/Forklift/releases/latest", NULL, NULL, SW_SHOWNORMAL);
+			exit(-1);		// cya~!
 		}
 	}
 }
