@@ -214,7 +214,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libForklift.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -232,7 +232,7 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libForklift.lib;detours.lib;Indicium-Supra.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Indicium-Supra.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -294,7 +294,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libForklift.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Raymonf\source\libs\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -317,7 +317,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libForklift.lib;detours.lib;Indicium-Supra.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Indicium-Supra.lib;detours.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Raymonf\source\libs\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -368,6 +368,14 @@
     <ClInclude Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_dx9.h" />
     <ClInclude Include="..\Libraries\Indicium-Supra\samples\Indicium-ImGui\imgui_impl_win32.h" />
     <ClInclude Include="dllmain.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\libForklift\libForklift.vcxproj">
+      <Project>{b158df80-0a5c-4423-9558-7a3a363f1a6a}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Libraries\minhook\build\VC16\libMinHook.vcxproj">
+      <Project>{f142a341-5ee0-442d-a15f-98ae9b48dbae}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
