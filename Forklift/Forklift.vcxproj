@@ -133,13 +133,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)x64\Debug_Lib;$(SolutionDir)lib\Debug\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(SolutionDir)Libraries\Detours\lib.X64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Libraries\ShenmueDK\build\Debug\;$(SolutionDir)Libraries\ShenmueDK\build\extern\jsoncpp\src\lib_json\Debug\;$(SolutionDir)x64\Debug_Lib;$(SolutionDir)lib\Debug\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(SolutionDir)Libraries\Detours\lib.X64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <IncludePath>$(SolutionDir)libForklift\;$(SolutionDir)Libraries\imgui\;$(SolutionDir)Libraries\Indicium-Supra\include\;$(SolutionDir)Libraries\Indicium-Supra\samples\Indicium-ImGui\;$(SolutionDir)Libraries\Detours\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>libForklift_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Manager_Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <LibraryPath>$(SolutionDir)x64\Debug_Lib;$(SolutionDir)lib\Debug\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(SolutionDir)Libraries\Detours\lib.X64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Libraries\ShenmueDK\build\Debug\;$(SolutionDir)Libraries\ShenmueDK\build\extern\jsoncpp\src\lib_json\Debug\;$(SolutionDir)x64\Debug_Lib;$(SolutionDir)lib\Debug\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(SolutionDir)Libraries\Detours\lib.X64\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <IncludePath>$(SolutionDir)libForklift\;$(SolutionDir)Libraries\imgui\;$(SolutionDir)Libraries\Indicium-Supra\include\;$(SolutionDir)Libraries\Indicium-Supra\samples\Indicium-ImGui\;$(SolutionDir)Libraries\Detours\include\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>ForkliftManager_d</TargetName>
   </PropertyGroup>
@@ -151,24 +151,30 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(SolutionDir)x64\Release_Lib;$(SolutionDir)lib\Release\;$(SolutionDir)Libraries\Detours\lib.X64\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Libraries\ShenmueDK\build\Release\;$(SolutionDir)Libraries\ShenmueDK\build\extern\jsoncpp\src\lib_json\Release\;$(SolutionDir)x64\Release_Lib;$(SolutionDir)lib\Release\;$(SolutionDir)Libraries\Detours\lib.X64\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <IncludePath>$(SolutionDir)libForklift\;$(SolutionDir)Libraries\imgui\;$(SolutionDir)Libraries\Indicium-Supra\include\;$(SolutionDir)Libraries\Detours\include\;$(SolutionDir)Libraries\Indicium-Supra\samples\Indicium-ImGui\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>libForklift</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Manager_Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <LibraryPath>$(SolutionDir)x64\Release_Lib;$(SolutionDir)lib\Release\;$(SolutionDir)Libraries\Detours\lib.X64\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <LibraryPath>$(SolutionDir)Libraries\ShenmueDK\build\Release\;$(SolutionDir)Libraries\ShenmueDK\build\extern\jsoncpp\src\lib_json\Release\;$(SolutionDir)x64\Release_Lib;$(SolutionDir)lib\Release\;$(SolutionDir)Libraries\Detours\lib.X64\;$(SolutionDir)Libraries\Indicium-Supra\bin\$(PlatformShortName)\;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
     <IncludePath>$(SolutionDir)libForklift\;$(SolutionDir)Libraries\imgui\;$(SolutionDir)Libraries\Indicium-Supra\include\;$(SolutionDir)Libraries\Detours\include\;$(SolutionDir)Libraries\Indicium-Supra\samples\Indicium-ImGui\;$(VC_IncludePath);$(WindowsSDK_IncludePath)</IncludePath>
     <TargetName>ForkliftManager</TargetName>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <VcpkgConfiguration>Release</VcpkgConfiguration>
+    <VcpkgUseStatic>true</VcpkgUseStatic>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Manager_Release|x64'">
     <VcpkgConfiguration>Release</VcpkgConfiguration>
+    <VcpkgUseStatic>true</VcpkgUseStatic>
   </PropertyGroup>
   <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Manager_Debug|x64'">
     <VcpkgConfiguration>Debug</VcpkgConfiguration>
+    <VcpkgUseStatic>true</VcpkgUseStatic>
+  </PropertyGroup>
+  <PropertyGroup Label="Vcpkg" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <VcpkgUseStatic>true</VcpkgUseStatic>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -209,12 +215,13 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libForklift.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncppd.lib;ShenmueDKStaticd.lib;libForklift.lib;ws2_32.lib;wldap32.lib;crypt32.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -227,12 +234,12 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libForklift.lib;detours.lib;Indicium-Supra.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncppd.lib;ShenmueDKStaticd.lib;libForklift.lib;ws2_32.lib;wldap32.lib;crypt32.lib;detours.lib;Indicium-Supra.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -286,7 +293,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
     </ClCompile>
     <Link>
@@ -294,7 +301,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libForklift.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncpp.lib;ShenmueDKStatic.lib;libForklift.lib;ws2_32.lib;wldap32.lib;crypt32.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Raymonf\source\libs\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -310,14 +317,14 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Libraries\MinHook\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <WholeProgramOptimization>true</WholeProgramOptimization>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <AdditionalDependencies>libForklift.lib;detours.lib;Indicium-Supra.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>jsoncpp.lib;ShenmueDKStatic.lib;libForklift.lib;ws2_32.lib;wldap32.lib;crypt32.lib;detours.lib;Indicium-Supra.lib;libMinHook.x64.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>C:\Users\Raymonf\source\libs\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;G:\Development\Libraries\C++\curl-7.61.0\builds\libcurl-vc15-x64-release-static-ipv6-sspi-winssl\lib;$(SolutionDir)Libraries\MinHook\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>

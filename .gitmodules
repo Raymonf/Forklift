@@ -16,3 +16,7 @@
 [submodule "Libraries/json"]
 	path = Libraries/json
 	url = https://github.com/nlohmann/json
+[submodule "Libraries/ShenmueDK"]
+	path = Libraries/ShenmueDK
+	url = https://github.com/Shenmue-Mods/ShenmueDK/
+	branch = master

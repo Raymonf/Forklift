@@ -36,6 +36,9 @@ __int64 HandleCreation::Hook(__int64 a1, char *assetPath, __int64 a3)
 #endif
 		}
 	}
+#ifdef _DEBUG
+	std::cout << "[ ] " << path << std::endl;
+#endif
 	auto ret = handleCreation(a1, const_cast<char *>(path.c_str()), a3);
 	return ret;
 }
