@@ -48,6 +48,9 @@
     <ClInclude Include="libForklift.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="TextureOverridePatch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FileSize.cpp">
@@ -78,6 +81,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="libForklift.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureOverridePatch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

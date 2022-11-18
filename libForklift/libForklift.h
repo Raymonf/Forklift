@@ -15,6 +15,8 @@
 #include "LedgerRecord.h"
 #include "Ledger.h"
 
+#include "TextureOverridePatch.h"
+
 #ifdef SERVER_REPORT_THREAD
 #	include "HasherSmall.h"
 #	include "ServerReportThread.h"

@@ -124,6 +124,7 @@
     <ClInclude Include="libForklift.h" />
     <ClInclude Include="PrintThread.h" />
     <ClInclude Include="ServerReportThread.h" />
+    <ClInclude Include="TextureOverridePatch.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="VersionManager.h" />
   </ItemGroup>
@@ -136,6 +137,7 @@
     <ClCompile Include="libForklift.cpp" />
     <ClCompile Include="PrintThread.cpp" />
     <ClCompile Include="ServerReportThread.cpp" />
+    <ClCompile Include="TextureOverridePatch.cpp" />
     <ClCompile Include="Utilities.cpp" />
     <ClCompile Include="VersionManager.cpp" />
   </ItemGroup>
