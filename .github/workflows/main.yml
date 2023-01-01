@@ -1,0 +1,27 @@
+name: Build Forklift
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: recursive
+
+      - uses: microsoft/setup-msbuild@v1.0.2
+
+      - uses: ilammy/msvc-dev-cmd@v1.4.1
+        with:
+          arch: amd64
+    
+      - name: Restore vcpkg packages
+        run: vcpkg integrate install
+    
+      - name: Set up curl
+        run: vcpkg install curl:x64-windows-static
+        
+      - name: Compile
+        run: msbuild Forklift.sln
