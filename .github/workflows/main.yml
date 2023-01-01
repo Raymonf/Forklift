@@ -2,6 +2,14 @@ name: Build Forklift
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - "actions"
+  pull_request:
+    branches:
+      - "main" 
+    paths:
+      - ".github/workflows/main.yaml"
 
 jobs:
   build:
