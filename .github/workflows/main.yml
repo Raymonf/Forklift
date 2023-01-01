@@ -25,11 +25,18 @@ jobs:
         with:
           arch: amd64
     
-      - name: Restore vcpkg packages
+      - name: Set up vcpkg
         run: vcpkg integrate install
     
-      - name: Set up curl
+      - name: Build and install curl
         run: vcpkg install curl:x64-windows-static
         
       - name: Compile
-        run: msbuild Forklift.sln
+        run: msbuild Forklift.sln /p:Configuration=Release
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Forklift Build
+          path: x64\Release
+
