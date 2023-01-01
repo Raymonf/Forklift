@@ -32,7 +32,7 @@ jobs:
         run: vcpkg install curl:x64-windows-static
         
       - name: Compile
-        run: msbuild Forklift.sln /t:Indicium-Supra,Detours,libMinHook,libForklift,ForkliftManager /p:Configuration=Release /p:BuildProjectReferences=false
+        run: msbuild Forklift.sln /t:Indicium-Supra;Detours;libMinHook;libForklift;ForkliftManager /p:Configuration=Release /p:BuildProjectReferences=false
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
