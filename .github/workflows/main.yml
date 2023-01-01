@@ -30,21 +30,12 @@ jobs:
     
       - name: Build and install curl
         run: vcpkg install curl:x64-windows-static
-        
-      - name: Compile Indicium-Supra
-        run: msbuild Forklift.sln /t:Indicium-Supra /p:Configuration=Release /property:Platform=x64 /p:BuildProjectReferences=false
-        
-      - name: Compile Detours
-        run: msbuild Forklift.sln /t:Detours /p:Configuration=Release /property:Platform=x64 /p:BuildProjectReferences=false
-        
-      - name: Compile libMinHook
-        run: msbuild Forklift.sln /t:libMinHook /p:Configuration=Release /property:Platform=x64 /p:BuildProjectReferences=false
-        
-      - name: Compile libForklift
-        run: msbuild Forklift.sln /t:libForklift /p:Configuration=Release /property:Platform=x64 /p:BuildProjectReferences=false
-        
-      - name: Compile ForkliftManager
-        run: msbuild Forklift.sln /t:ForkliftManager /p:Configuration=Release /property:Platform=x64 /p:BuildProjectReferences=false
+    
+      - name: Build and install jsoncpp
+        run: vcpkg install jsoncpp:x64-windows-static
+      
+      - name: Compile Forklift
+        run: msbuild Forklift.sln /p:Configuration=Manager_Release /property:Platform=x64
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
