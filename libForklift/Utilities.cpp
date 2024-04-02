@@ -9,56 +9,57 @@ namespace Utilities {
 	{
 		return std::filesystem::exists(path);
 	}
+	
 	std::string normalizePath(std::string_view path)
-{
-	std::string normalized("");
-
-	for (size_t i = 0; i < path.length(); i++)
 	{
-		auto c = path[i];
+		std::string normalized("");
 
-		if ((i == 0 || i == 1) && c == '.')
-			continue;
-
-		if (c == '/' || c == '\\' || c == ' ')
-			continue;
-
-		normalized += tolower(c);
-	}
-
-	return normalized;
-}
-
-std::vector<std::string> pathsInDirectory(std::string_view path)
-{
-	std::vector<std::string> paths;
-	for (auto &p : std::filesystem::recursive_directory_iterator(path))
-	{
-		if (!p.is_directory())
+		for (size_t i = 0; i < path.length(); i++)
 		{
-			std::string filePath = p.path().string();
-			// We only want the path relative to the path given.
-			filePath.erase(0, path.length());
-			paths.push_back(filePath);
+			auto c = path[i];
+
+			if ((i == 0 || i == 1) && c == '.')
+				continue;
+
+			if (c == '/' || c == '\\' || c == ' ')
+				continue;
+
+			normalized += tolower(c);
 		}
+
+		return normalized;
 	}
-	return paths;
-}
 
-void setupConsole()
-{
-#ifdef _DEBUG
-	// Create Forklift console
-	AllocConsole();
-	SetConsoleTitleA("Forklift");
+	std::vector<std::string> pathsInDirectory(std::wstring_view path)
+	{
+		std::vector<std::string> paths;
+		for (auto &p : std::filesystem::recursive_directory_iterator(path))
+		{
+			if (!p.is_directory())
+			{
+				std::string filePath = p.path().string();
+				// We only want the path relative to the path given.
+				filePath.erase(0, path.length());
+				paths.push_back(filePath);
+			}
+		}
+		return paths;
+	}
 
-	// Redirect standard streams to Forklift's console
-	FILE *pNewStdout = nullptr;
-	FILE *pNewStderr = nullptr;
-	FILE *pNewStdin = nullptr;
-	::freopen_s(&pNewStdout, "CONOUT$", "w", stdout);
-	::freopen_s(&pNewStderr, "CONOUT$", "w", stderr);
-	::freopen_s(&pNewStdin, "CONIN$", "r", stdin);
-#endif
-}
+	void setupConsole()
+	{
+#		ifdef _DEBUG
+			// Create Forklift console
+			AllocConsole();
+			SetConsoleTitleA("Forklift");
+
+			// Redirect standard streams to Forklift's console
+			FILE *pNewStdout = nullptr;
+			FILE *pNewStderr = nullptr;
+			FILE *pNewStdin = nullptr;
+			::freopen_s(&pNewStdout, "CONOUT$", "w", stdout);
+			::freopen_s(&pNewStderr, "CONOUT$", "w", stderr);
+			::freopen_s(&pNewStdin, "CONIN$", "r", stdin);
+	#	endif
+	}
 }

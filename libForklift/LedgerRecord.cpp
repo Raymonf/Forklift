@@ -3,13 +3,6 @@
 #include <filesystem>
 #include <iostream>
 
-LedgerRecord::LedgerRecord(std::filesystem::directory_entry entry)
-	: entry { entry }
-{
-	enabled = true;
-}
-
-
 std::string LedgerRecord::getPath()
 {
 	std::string filePath = entry.path().string();
