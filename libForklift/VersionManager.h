@@ -1,4 +1,5 @@
 #pragma once
+#include <string>
 
 enum class Version {
 	// Shenmue 1
@@ -10,6 +11,7 @@ enum class Version {
 	Coconut105,
 	Coconut106,
 	Coconut107,
+	Coconut_UWP_107,
 
 	// Shenmue 2
 	Mango100,
@@ -20,6 +22,7 @@ enum class Version {
 	Mango105,
 	Mango106,
 	Mango107,
+	Mango_UWP_107,
 
 	Unknown
 };
@@ -33,7 +36,10 @@ public:
 	__int64 getFileSizeAddress();
 	__int64 getHasherSmallAddress();
 
-	const char *getGameId();
+	const std::wstring getGameId();
+
+	Version getVersion();
+
 private:
 	static VersionManager* sInstance;
 	VersionManager();
@@ -42,7 +48,5 @@ private:
 	__int64 handleCreationAddress;
 	__int64 fileSizeAddress;
 	__int64 hasherSmallAddress;
-
-	Version getVersion();
 };
 

@@ -1,5 +1,6 @@
 #include "libForklift.h"
 
+#include "VersionManager.h"
 #include <string>
 #include <iostream>
 #include <fstream>
@@ -86,6 +87,16 @@ static void update_thread(void) {
 
 void Forklift::initialize()
 {
+	// check if we're even able to do anything with this executable.
+	VersionManager * versionManager = VersionManager::singleton();
+	Version version = versionManager->getVersion();
+	if (version == Version::Unknown)
+	{
+		MessageBoxA(NULL, "Failed to detect the currently running version of Shenmue I/II. Exiting.", "libForklift", MB_OK);
+		exit(-1); // cya~!
+		return;
+	}
+
 #	ifdef _DEBUG
 		Utilities::setupConsole();
 #	endif
@@ -94,6 +105,7 @@ void Forklift::initialize()
 	if (MH_Initialize() != MH_OK)
 	{
 		MessageBoxA(NULL, "Failed to initialize MinHook", "libForklift", MB_OK);
+		exit(-1); // cya~!
 		return;
 	}
 

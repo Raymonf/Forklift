@@ -1,4 +1,5 @@
 #include <Windows.h>
+#include <string>
 #include "VersionManager.h"
 
 VersionManager* VersionManager::sInstance = nullptr;
@@ -48,8 +49,13 @@ VersionManager::VersionManager()
 		fileSizeAddress = 0x293D40;
 		hasherSmallAddress = 0x2C8160;
 		break;
+	case Version::Coconut_UWP_107:
+		handleCreationAddress = 0x2A0440;
+		fileSizeAddress = 0x2A0FE0;
+		hasherSmallAddress = 0x2CFAC0;
+		break;
 
-	case Version::Mango100: // Shenmue v1.02 and v1.00 have the same EXEs?
+	case Version::Mango100: // Shenmue 2 v1.02 and v1.00 have the same EXEs?
 	case Version::Mango102: 
 		handleCreationAddress = 0x36D810;
 		fileSizeAddress = 0x36E2C0;
@@ -84,6 +90,11 @@ VersionManager::VersionManager()
 		handleCreationAddress = 0x371AA0;
 		fileSizeAddress = 0x372550;
 		hasherSmallAddress = 0x3D4F60;
+		break;		
+	case Version::Mango_UWP_107:
+		handleCreationAddress = 0x370D70;
+		fileSizeAddress = 0x371990;
+		hasherSmallAddress = 0x3D0A20;
 		break;
 	case Version::Unknown:
 	default:
@@ -115,7 +126,7 @@ __int64 VersionManager::getHasherSmallAddress()
 	return hasherSmallAddress;
 }
 
-const char * VersionManager::getGameId()
+const std::wstring VersionManager::getGameId()
 {
 	switch (version)
 	{
@@ -127,7 +138,8 @@ const char * VersionManager::getGameId()
 	case Version::Coconut105:
 	case Version::Coconut106:
 	case Version::Coconut107:
-		return "sm1";
+	case Version::Coconut_UWP_107:
+		return L"sm1";
 	case Version::Mango100:
 	case Version::Mango101:
 	case Version::Mango102:
@@ -136,10 +148,11 @@ const char * VersionManager::getGameId()
 	case Version::Mango105:
 	case Version::Mango106:
 	case Version::Mango107:
-		return "sm2";
+	case Version::Mango_UWP_107:
+		return L"sm2";
 	}
 
-	return "unknown";
+	return L"unknown";
 }
 
 Version VersionManager::getVersion()
@@ -178,7 +191,13 @@ Version VersionManager::getVersion()
 	case 0x5BD19146: // Shenmue 2 v1.06
 		return Version::Mango106;
 	case 0x5BE4E77A: // Shenmue 2 v1.07
-		return Version::Mango107;
+		return Version::Mango107;	
+	
+	
+	case 0x5CE6F774: // UWP Shenmue v1.07
+		return Version::Coconut_UWP_107;
+	case 0x5CE6FE26: // UWP Shenmue 2 v1.07
+		return Version::Mango_UWP_107;
 	default:
 		return Version::Unknown;
 	}
