@@ -171,6 +171,9 @@ void Forklift::destroy()
 
 	ledger.clear();
 
+	if (TextureOverridePatch::oldOverridesTbl)
+		free((void*)TextureOverridePatch::oldOverridesTbl);
+
 	HandleCreation::Uninstall();
 	FileSize::Uninstall();
 

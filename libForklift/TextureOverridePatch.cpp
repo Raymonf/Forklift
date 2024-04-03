@@ -125,9 +125,9 @@ void TextureOverridePatch::init_override_thread()
 
 				if (f.good()) {
 					auto ret = AddMappings(f);
-#ifdef _DEBUG
-					printf("Added %d mappings from TAD/TAC (%s)\n", ret, tacpath.string().c_str());
-#endif
+#					ifdef _DEBUG
+						printf("Added %d mappings from TAD/TAC (%s)\n", ret, tacpath.string().c_str());
+#					endif
 				}
 			}
 		}
