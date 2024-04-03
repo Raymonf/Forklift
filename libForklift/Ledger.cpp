@@ -19,7 +19,7 @@ std::vector<LedgerRecord> recordsInDirectory(std::string_view path)
 	return records;
 }
 
-void Ledger::getMods(std::string_view path)
+void Ledger::getMods(std::string path)
 {
 	Utilities::curr_path = path;
 	ledger = recordsInDirectory(path);
@@ -27,7 +27,7 @@ void Ledger::getMods(std::string_view path)
 
 bool Ledger::isModPath(std::string_view path)
 {
-	std::string normalized = Utilities::normalizePath(path);
+	auto normalized = Utilities::normalizePath(path);
 	auto it = std::find_if(ledger.begin(), ledger.end(), [&normalized](LedgerRecord &record) { return record.enabled && (Utilities::normalizePath(record.getPath()) == normalized); });
 	if (it != ledger.end())
 		return true;
@@ -36,7 +36,7 @@ bool Ledger::isModPath(std::string_view path)
 
 LedgerRecord Ledger::getRecordFromPath(std::string_view path)
 {
-	std::string normalized = Utilities::normalizePath(path);
+	auto normalized = Utilities::normalizePath(path);
 	auto it = std::find_if(ledger.begin(), ledger.end(), [&normalized](LedgerRecord& record) { return record.enabled && (Utilities::normalizePath(record.getPath()) == normalized); });
 	if (it != ledger.end())
 		return *it;

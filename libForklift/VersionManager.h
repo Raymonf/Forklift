@@ -36,7 +36,7 @@ public:
 	__int64 getFileSizeAddress();
 	__int64 getHasherSmallAddress();
 
-	const std::wstring getGameId();
+	const std::string getGameId();
 
 	Version getVersion();
 

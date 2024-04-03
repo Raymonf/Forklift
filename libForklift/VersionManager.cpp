@@ -126,7 +126,7 @@ __int64 VersionManager::getHasherSmallAddress()
 	return hasherSmallAddress;
 }
 
-const std::wstring VersionManager::getGameId()
+const std::string VersionManager::getGameId()
 {
 	switch (version)
 	{
@@ -139,7 +139,7 @@ const std::wstring VersionManager::getGameId()
 	case Version::Coconut106:
 	case Version::Coconut107:
 	case Version::Coconut_UWP_107:
-		return L"sm1";
+		return "sm1";
 	case Version::Mango100:
 	case Version::Mango101:
 	case Version::Mango102:
@@ -149,10 +149,10 @@ const std::wstring VersionManager::getGameId()
 	case Version::Mango106:
 	case Version::Mango107:
 	case Version::Mango_UWP_107:
-		return L"sm2";
+		return "sm2";
 	}
 
-	return L"unknown";
+	return "unknown";
 }
 
 Version VersionManager::getVersion()

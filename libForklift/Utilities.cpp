@@ -30,7 +30,7 @@ namespace Utilities {
 		return normalized;
 	}
 
-	std::vector<std::string> pathsInDirectory(std::wstring_view path)
+	std::vector<std::string> pathsInDirectory(std::string_view path)
 	{
 		std::vector<std::string> paths;
 		for (auto &p : std::filesystem::recursive_directory_iterator(path))

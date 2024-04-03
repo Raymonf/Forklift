@@ -30,7 +30,13 @@ __int64 HandleCreation::Hook(__int64 a1, char *assetPath, __int64 a3)
 	{
 		if (Ledger::isModPath(path))
 		{
-			path = ".\\mods\\" + path;
+			auto version = VersionManager::singleton()->getVersion();
+#ifdef FULL_UWP
+			if (version == Version::Coconut_UWP_107 || version == Version::Mango_UWP_107)
+				path = std::string(Utilities::curr_path) + path;
+			else
+#endif
+				path = ".\\mods\\" + path;
 #ifdef _DEBUG
 			std::cout << "[ * ] " << path << std::endl;
 #endif

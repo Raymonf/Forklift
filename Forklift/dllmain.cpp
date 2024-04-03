@@ -46,7 +46,7 @@ void RenderUI(void)
 {
 	auto ResetLedger = []() {
 		ledger.clear();
-		Ledger::getMods(LIBFORKLIFT_MODS_DIR);
+		Ledger::getMods(std::string(Utilities::curr_path));
 	};
 
 	ImGui::SetNextWindowSizeConstraints(ImVec2(375, 475), ImVec2(500, 500));

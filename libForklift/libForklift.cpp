@@ -5,6 +5,8 @@
 #include <iostream>
 #include <fstream>
 
+#include <atlbase.h>
+#include <Shlobj.h>
 #include <Windows.h>
 #undef min
 #undef max
@@ -75,12 +77,12 @@ bool compare_online_tag_to_our_tag(const char* szRepoAndOwner, const char* szCur
 }
 
 static void update_thread(void) {
-	if (!compare_online_tag_to_our_tag("Raymonf/Forklift", LIBFORKLIFT_TAG)) {
-		int res = MessageBoxA(NULL, "Your version of Forklift is out-of-date!\n\nPlease download the latest version after clicking the OK button or press the cancel button to ignore this message.", "Forklift" " " LIBFORKLIFT_TAG, MB_OKCANCEL);
-
-		if (res == IDOK) {
+	if (!compare_online_tag_to_our_tag("Raymonf/Forklift", LIBFORKLIFT_TAG)) 
+	{
+		
+		if (MessageBoxA(NULL, "Your version of Forklift is out-of-date!\n\nPlease download the latest version after clicking the OK button or press the cancel button to ignore this message.", "Forklift" " " LIBFORKLIFT_TAG, MB_OKCANCEL) == IDOK)
+		{
 			ShellExecuteA(NULL, "open", "https://github.com/Raymonf/Forklift/releases/latest", NULL, NULL, SW_SHOWNORMAL);
-			exit(-1);		// cya~!
 		}
 	}
 }
@@ -116,22 +118,49 @@ void Forklift::initialize()
 #		endif
 #	endif
 
+	// setup the mods directory, if we're running as UWP, we will try to get the apps
+	// temp AppData directory and if not, we'll fallback to LIBFORKLIFT_UWP_FALLBACK_MODS_DIR.
+	// otherwise we'll just load .\mods from the current directory as normal.
+	std::string modsDirectory = LIBFORKLIFT_MODS_DIR;
+#	ifdef FULL_UWP
+		if (version == Version::Coconut_UWP_107 || version == Version::Mango_UWP_107)
+		{
+			modsDirectory = LIBFORKLIFT_UWP_FALLBACK_MODS_DIR;
+	
+			char szPath[MAX_PATH];
+			if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, szPath)))
+			{
+				std::string appData(szPath);
+				appData = appData.substr(0, appData.rfind("AC"));
+				appData += "LocalState\\mods\\";
+				modsDirectory = appData + versionManager->getGameId();
+
+				MessageBoxA(NULL, ("Found directory: " + modsDirectory).c_str(), "libForklift Debug", MB_OK);
+			}
+			else
+			{
+				MessageBoxA(NULL, "Couldn't retrieve directory info.", "libForklift Debug", MB_OK);
+			}
+		}
+#	endif
+
 	// start the update checker thread..
 	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&update_thread, NULL, 0, NULL);
 
 	// make sure mods directory exists..		
-	if (!std::filesystem::exists(LIBFORKLIFT_MODS_DIR)) {
-		std::filesystem::create_directories(LIBFORKLIFT_MODS_DIR);
+	if (!std::filesystem::exists(modsDirectory)) {
+		std::filesystem::create_directories(modsDirectory);
 		Sleep(100);
 	}
 
 	// initialize ledger
-	Ledger::getMods(LIBFORKLIFT_MODS_DIR);
+	Ledger::getMods(modsDirectory);
 
 	// install hooks
 	HandleCreation::Install();
 	FileSize::Install();
-	TextureOverridePatch::Initialize();
+
+	// TextureOverridePatch::Initialize();
 }
 
 void Forklift::destroy()

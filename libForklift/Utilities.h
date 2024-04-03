@@ -1,5 +1,7 @@
 #pragma once
 
+#define FULL_UWP
+
 #include <Windows.h>
 #include <vector>
 #include <string>

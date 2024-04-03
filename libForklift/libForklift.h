@@ -1,7 +1,8 @@
 #pragma once
 
-#define LIBFORKLIFT_TAG				"v1.1.1"
-#define LIBFORKLIFT_MODS_DIR		".\\mods\\"
+#define LIBFORKLIFT_TAG							"v1.1.1"
+#define LIBFORKLIFT_MODS_DIR					".\\mods\\"
+#define LIBFORKLIFT_UWP_FALLBACK_MODS_DIR		"C:\\Users\\Public\\Documents\\"
 
 #include <string>
 #include <filesystem>

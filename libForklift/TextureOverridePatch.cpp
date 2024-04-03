@@ -3,6 +3,7 @@
 #include "MinHook.h"
 #include <nlohmann/json.hpp>
 
+#include "VersionManager.h"
 #include "TextureOverridePatch.h"
 
 #include <shendk/files/container/tad.h>
@@ -22,15 +23,16 @@ bool TextureOverridePatch::g_bMappingsInitialized = false;
 
 void TextureOverridePatch::Initialize()
 {
-	MH_STATUS status = MH_CreateHook(reinterpret_cast<void**>((DWORD_PTR)GetModuleHandle(NULL) + 0x257E90), hook, reinterpret_cast<void**>(&fn_orig));
-	if (status == MH_OK)
-		status = MH_EnableHook(reinterpret_cast<void**>((DWORD_PTR)GetModuleHandle(NULL) + 0x257E90));
+	// Shenmue 1 v1.07 only for now as we need to port more offsets
+	if (VersionManager::singleton()->getVersion() == Version::Coconut107)
+	{
+		MH_STATUS status = MH_CreateHook(reinterpret_cast<void**>((DWORD_PTR)GetModuleHandle(NULL) + 0x257E90), hook, reinterpret_cast<void**>(&fn_orig));
+		if (status == MH_OK)
+			status = MH_EnableHook(reinterpret_cast<void**>((DWORD_PTR)GetModuleHandle(NULL) + 0x257E90));
 
-	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&init_override_thread, NULL, 0, NULL);
+		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&init_override_thread, NULL, 0, NULL);
+	}
 }
-
-
-
 
 int TextureOverridePatch::AddMappings(std::istream& f)
 {
