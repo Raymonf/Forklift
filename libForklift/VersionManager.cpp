@@ -53,6 +53,10 @@ VersionManager::VersionManager()
 		handleCreationAddress = 0x2A0440;
 		fileSizeAddress = 0x2A0FE0;
 		hasherSmallAddress = 0x2CFAC0;
+
+		initOverrideAddress = 0x257E90;
+		overridesTableAddress = 0xEB15C0;
+		numOverridesAddress = 0xEB14E4llu;
 		break;
 
 	case Version::Mango100: // Shenmue 2 v1.02 and v1.00 have the same EXEs?
@@ -124,6 +128,21 @@ __int64 VersionManager::getFileSizeAddress()
 __int64 VersionManager::getHasherSmallAddress()
 {
 	return hasherSmallAddress;
+}
+
+__int64 VersionManager::getInitOverrideAddress()
+{
+	return initOverrideAddress;
+}
+
+__int64 VersionManager::getOverridesTableAddress()
+{
+	return overridesTableAddress;
+}
+
+__int64 VersionManager::getNumOverridesAddress()
+{
+	return numOverridesAddress;
 }
 
 const std::string VersionManager::getGameId()

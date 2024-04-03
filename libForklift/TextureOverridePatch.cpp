@@ -21,16 +21,18 @@ bool TextureOverridePatch::bHasBackedUp = false;
 
 bool TextureOverridePatch::g_bMappingsInitialized = false;
 
-void TextureOverridePatch::Initialize()
+void TextureOverridePatch::Install()
 {
-	// Shenmue 1 v1.07 only for now as we need to port more offsets
-	if (VersionManager::singleton()->getVersion() == Version::Coconut107)
+	auto addr = VersionManager::singleton()->getInitOverrideAddress();
+	MH_STATUS status = MH_CreateHook(reinterpret_cast<void**>((DWORD_PTR)GetModuleHandle(NULL) + addr), hook, reinterpret_cast<void**>(&fn_orig));
+	if (status == MH_OK)
 	{
-		MH_STATUS status = MH_CreateHook(reinterpret_cast<void**>((DWORD_PTR)GetModuleHandle(NULL) + 0x257E90), hook, reinterpret_cast<void**>(&fn_orig));
-		if (status == MH_OK)
-			status = MH_EnableHook(reinterpret_cast<void**>((DWORD_PTR)GetModuleHandle(NULL) + 0x257E90));
+		status = MH_EnableHook(reinterpret_cast<void**>((DWORD_PTR)GetModuleHandle(NULL) + addr));
 
-		CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&init_override_thread, NULL, 0, NULL);
+		if (status == MH_OK)
+		{
+			CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&init_override_thread, NULL, 0, NULL);
+		}
 	}
 }
 
@@ -38,10 +40,20 @@ int TextureOverridePatch::AddMappings(std::istream& f)
 {
 	int res = 0;
 	json data = json::parse(f);
-	for (auto& items : data["Mappings"]) {
-		texOverride_t tmp;
-		sprintf_s(tmp.original_path, "%s", items["Source"].get<std::string>().c_str());
-		sprintf_s(tmp.remap_path, "%s", items["Destination"].get<std::string>().c_str());
+	std::string src, dst;
+	texOverride_t tmp;
+	for (const auto& items : data["Mappings"]) {
+		src = items["Source"].get<std::string>();
+		dst = items["Destination"].get<std::string>();
+
+		sprintf_s(tmp.original_path, "%s", src.c_str());
+		for (int i = src.size(); i < MAX_PATH; ++i)
+			tmp.original_path[i] = 0x00;
+
+		sprintf_s(tmp.remap_path, "%s", dst.c_str());
+		for (int i = dst.size(); i < MAX_PATH; ++i)
+			tmp.remap_path[i] = 0x00;
+
 		mappings.push_back(tmp);
 		mappings.shrink_to_fit();
 		res++;
@@ -49,32 +61,34 @@ int TextureOverridePatch::AddMappings(std::istream& f)
 	return res;
 }
 
-
 void TextureOverridePatch::hook(__int64 a1, int a2, const char* a3, __int64 a4)
 {
+	// @todo: will need changing for UWP maybe
 	while (!g_bMappingsInitialized) {}
 
 	fn_orig(a1, a2, a3, a4);
 
 	auto base = GetModuleHandle(NULL);
+	auto overridesTableOffset = VersionManager::singleton()->getOverridesTableAddress();
+	auto numOverridesOffset = VersionManager::singleton()->getNumOverridesAddress();
 
 	// back up the old table address as this has to be freed manually anyways, 
 	// so we can back it up and restore it if the user wants to disable overrides for whatever reason.
 	if (!bHasBackedUp) {
-		oldOverridesTbl = *(DWORD_PTR*)((DWORD_PTR)(base)+0xEB15C0);
-		oldNumOverrides = *(int*)((DWORD_PTR)base + 0xEB14E4llu);
+		oldOverridesTbl = *(DWORD_PTR*)((DWORD_PTR)(base) + overridesTableOffset);
+		oldNumOverrides = *(int*)((DWORD_PTR)base + numOverridesOffset);
 		bHasBackedUp = true;
 	}
 
 	// allocate new space which can hold the new mappings
-	DWORD_PTR mapping_tbl = *(DWORD_PTR*)((DWORD_PTR)(base)+0xEB15C0);
+	DWORD_PTR mapping_tbl = *(DWORD_PTR*)((DWORD_PTR)(base) + overridesTableOffset);
 	size_t size = (MAX_PATH * 2) * mappings.size();
 	void* mem = malloc(size);
 	if (mem)
 	{
 		// update the pointer in memory to point to our new space
 		memset(mem, 0x00, size);
-		*(DWORD_PTR*)((DWORD_PTR)(base)+0xEB15C0) = (DWORD_PTR)mem;
+		*(DWORD_PTR*)((DWORD_PTR)(base) + overridesTableOffset) = (DWORD_PTR)mem;
 
 		// write all of the mappings into the new space
 		int index = 0;
@@ -85,7 +99,7 @@ void TextureOverridePatch::hook(__int64 a1, int a2, const char* a3, __int64 a4)
 		}
 
 		// finally update the total count of mappings!
-		*(int*)((DWORD_PTR)base + 0xEB14E4llu) = index;
+		*(int*)((DWORD_PTR)base + numOverridesOffset) = index;
 	}
 }
 
@@ -95,9 +109,12 @@ void TextureOverridePatch::init_override_thread()
 	db.initialize("filename_database.json");
 
 	for (const auto& file : std::filesystem::recursive_directory_iterator(".\\archives\\")) {
-		if ((!strstr(file.path().string().c_str(), "audio_") && !strstr(file.path().string().c_str(), "disk_") && !strstr(file.path().string().c_str(), "shaders_"))
-			&& strstr(file.path().extension().string().c_str(), ".tad")) {
-			shendk::TAD tad(file.path().string());
+		std::string str = file.path().string();
+
+		bool bNotValid = (!strstr(str.c_str(), "audio_") && !strstr(str.c_str(), "disk_") && !strstr(str.c_str(), "shaders_"));
+		bool bIsTAD = strstr(file.path().extension().string().c_str(), ".tad");
+		if (bNotValid && bIsTAD) {
+			shendk::TAD tad(str);
 
 			std::filesystem::path tacpath = file.path();
 			tacpath.replace_extension(".tac");

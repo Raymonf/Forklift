@@ -36,6 +36,10 @@ public:
 	__int64 getFileSizeAddress();
 	__int64 getHasherSmallAddress();
 
+	__int64 getInitOverrideAddress();
+	__int64 getOverridesTableAddress();
+	__int64 getNumOverridesAddress();
+
 	const std::string getGameId();
 
 	Version getVersion();
@@ -48,5 +52,9 @@ private:
 	__int64 handleCreationAddress;
 	__int64 fileSizeAddress;
 	__int64 hasherSmallAddress;
+	
+	__int64 initOverrideAddress;
+	__int64 overridesTableAddress;
+	__int64 numOverridesAddress;
 };
 

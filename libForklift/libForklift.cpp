@@ -160,7 +160,9 @@ void Forklift::initialize()
 	HandleCreation::Install();
 	FileSize::Install();
 
-	// TextureOverridePatch::Initialize();
+	// Shenmue 1 v1.07 only for now as we need to port more offsets
+	if (VersionManager::singleton()->getVersion() == Version::Coconut107)
+		TextureOverridePatch::Install();
 }
 
 void Forklift::destroy()
