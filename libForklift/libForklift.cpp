@@ -13,13 +13,12 @@
 
 #include "MinHook.h"
 
-#include <curl\curl.h>
+//#include <curl\curl.h>
 #include <nlohmann/json.hpp>
 
 using json = nlohmann::json;
 
 bool Forklift::g_bHookEnabled = true;
-std::string_view Utilities::curr_path;
 
 size_t WriteCallback(char* contents, size_t size, size_t nmemb, void* userp)
 {
@@ -27,7 +26,7 @@ size_t WriteCallback(char* contents, size_t size, size_t nmemb, void* userp)
 	return size * nmemb;
 }
 
-bool compare_online_tag_to_our_tag(const char* szRepoAndOwner, const char* szCurrentTag)
+/*bool compare_online_tag_to_our_tag(const char* szRepoAndOwner, const char* szCurrentTag)
 {
 	bool result = true;
 	curl_global_init(CURL_GLOBAL_ALL);
@@ -85,10 +84,15 @@ static void update_thread(void) {
 			ShellExecuteA(NULL, "open", "https://github.com/Raymonf/Forklift/releases/latest", NULL, NULL, SW_SHOWNORMAL);
 		}
 	}
-}
+}*/
 
 void Forklift::initialize()
 {
+
+#	ifdef _DEBUG
+	Utilities::setupConsole();
+#	endif
+
 	// check if we're even able to do anything with this executable.
 	VersionManager * versionManager = VersionManager::singleton();
 	Version version = versionManager->getVersion();
@@ -98,10 +102,6 @@ void Forklift::initialize()
 		exit(-1); // cya~!
 		return;
 	}
-
-#	ifdef _DEBUG
-		Utilities::setupConsole();
-#	endif
 
 	// Initialize MinHook
 	if (MH_Initialize() != MH_OK)
@@ -118,51 +118,26 @@ void Forklift::initialize()
 #		endif
 #	endif
 
-	// setup the mods directory, if we're running as UWP, we will try to get the apps
-	// temp AppData directory and if not, we'll fallback to LIBFORKLIFT_UWP_FALLBACK_MODS_DIR.
-	// otherwise we'll just load .\mods from the current directory as normal.
-	std::string modsDirectory = LIBFORKLIFT_MODS_DIR;
-#	ifdef FULL_UWP
-		if (version == Version::Coconut_UWP_107 || version == Version::Mango_UWP_107)
-		{
-			modsDirectory = LIBFORKLIFT_UWP_FALLBACK_MODS_DIR;
-	
-			char szPath[MAX_PATH];
-			if (SUCCEEDED(SHGetFolderPathA(NULL, CSIDL_LOCAL_APPDATA, NULL, 0, szPath)))
-			{
-				std::string appData(szPath);
-				appData = appData.substr(0, appData.rfind("AC"));
-				appData += "LocalState\\mods\\";
-				modsDirectory = appData + versionManager->getGameId();
-
-				MessageBoxA(NULL, ("Found directory: " + modsDirectory).c_str(), "libForklift Debug", MB_OK);
-			}
-			else
-			{
-				MessageBoxA(NULL, "Couldn't retrieve directory info.", "libForklift Debug", MB_OK);
-			}
-		}
-#	endif
-
 	// start the update checker thread..
-	CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&update_thread, NULL, 0, NULL);
+	//CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&update_thread, NULL, 0, NULL);
 
 	// make sure mods directory exists..		
-	if (!std::filesystem::exists(modsDirectory)) {
-		std::filesystem::create_directories(modsDirectory);
+	auto dir = versionManager->getModsDir();
+	if (!std::filesystem::exists(dir)) {
+		std::filesystem::create_directories(dir);
 		Sleep(100);
 	}
 
 	// initialize ledger
-	Ledger::getMods(modsDirectory);
+	Ledger::getMods();
 
 	// install hooks
 	HandleCreation::Install();
 	FileSize::Install();
 
 	// Shenmue 1 v1.07 only for now as we need to port more offsets
-	if (VersionManager::singleton()->getVersion() == Version::Coconut107)
-		TextureOverridePatch::Install();
+	//if (VersionManager::singleton()->getVersion() == Version::Coconut107)
+	//	TextureOverridePatch::Install();
 }
 
 void Forklift::destroy()

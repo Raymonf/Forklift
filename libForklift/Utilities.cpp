@@ -5,6 +5,7 @@
 #include <filesystem>
 
 namespace Utilities {
+
 	bool exists(std::string_view path)
 	{
 		return std::filesystem::exists(path);

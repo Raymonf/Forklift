@@ -1,6 +1,7 @@
 #include <Windows.h>
 #include "Ledger.h"
 #include "Utilities.h"
+#include "VersionManager.h"
 #include "LedgerRecord.h"
 #include <algorithm>
 #include <vector>
@@ -19,10 +20,9 @@ std::vector<LedgerRecord> recordsInDirectory(std::string_view path)
 	return records;
 }
 
-void Ledger::getMods(std::string path)
+void Ledger::getMods()
 {
-	Utilities::curr_path = path;
-	ledger = recordsInDirectory(path);
+	ledger = recordsInDirectory(VersionManager::singleton()->getModsDir());
 }
 
 bool Ledger::isModPath(std::string_view path)

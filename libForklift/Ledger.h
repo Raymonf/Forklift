@@ -7,7 +7,7 @@
 class Ledger
 {
 public:
-	static void getMods(std::string path);
+	static void getMods();
 	static bool isModPath(std::string_view path);
 	static LedgerRecord getRecordFromPath(std::string_view path);
 };

@@ -7,12 +7,6 @@
 #include <string>
 
 namespace Utilities {
-	// Stores the current "mods" directory path
-	extern std::string_view curr_path;
-
-	// Check if something exists in the filesystem
-	//bool exists(std::string_view path);
-
 	// Normalize path
 	std::string normalizePath(std::string_view path);
 

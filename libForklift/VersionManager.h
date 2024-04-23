@@ -44,6 +44,17 @@ public:
 
 	Version getVersion();
 
+
+	const std::string getModsDir() 
+	{
+		Version ver = getVersion();
+		return std::string(  ver == Version::Coconut_UWP_107 || ver == Version::Mango_UWP_107 ? 
+			"C:\\Users\\Public\\Documents\\ShenmueMods\\" + getGameId() + "\\"
+			:
+			".\\mods\\"
+			);
+	}
+
 private:
 	static VersionManager* sInstance;
 	VersionManager();
