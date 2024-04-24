@@ -1,4 +1,5 @@
 #pragma once
+#include "libForklift.h"
 #include <string>
 
 enum class Version {
@@ -44,15 +45,16 @@ public:
 
 	Version getVersion();
 
+	bool forceUseUWPDir = false;
 
 	const std::string getModsDir() 
 	{
 		Version ver = getVersion();
-		return std::string(  ver == Version::Coconut_UWP_107 || ver == Version::Mango_UWP_107 ? 
-			"C:\\Users\\Public\\Documents\\ShenmueMods\\" + getGameId() + "\\"
+		return std::string(forceUseUWPDir || (ver == Version::Coconut_UWP_107 || ver == Version::Mango_UWP_107) ? 
+			LIBFORKLIFT_UWP_FALLBACK_MODS_DIR + getGameId() + "\\"
 			:
-			".\\mods\\"
-			);
+			LIBFORKLIFT_MODS_DIR
+		);
 	}
 
 private:

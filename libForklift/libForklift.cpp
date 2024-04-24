@@ -120,10 +120,20 @@ void Forklift::initialize()
 
 	// start the update checker thread..
 	//CreateThread(NULL, 0, (LPTHREAD_START_ROUTINE)&update_thread, NULL, 0, NULL);
-
-	// make sure mods directory exists..		
+		
 	auto dir = versionManager->getModsDir();
-	if (!std::filesystem::exists(dir)) {
+	if (version != Version::Coconut_UWP_107 && version != Version::Mango_UWP_107)
+	{
+		if (std::filesystem::exists(LIBFORKLIFT_UWP_FALLBACK_MODS_DIR)) 
+		{
+			if (MessageBoxA(NULL, "UWP mods directory found. Do you want to use this folder for mods?", "libForklift", MB_YESNO) == IDYES)
+			{
+				versionManager->forceUseUWPDir = true;
+			}
+		}
+	}
+	else if (!std::filesystem::exists(dir)) 
+	{
 		std::filesystem::create_directories(dir);
 		Sleep(100);
 	}
@@ -136,8 +146,8 @@ void Forklift::initialize()
 	FileSize::Install();
 
 	// Shenmue 1 v1.07 only for now as we need to port more offsets
-	//if (VersionManager::singleton()->getVersion() == Version::Coconut107)
-	//	TextureOverridePatch::Install();
+	if (VersionManager::singleton()->getVersion() == Version::Coconut107)
+		TextureOverridePatch::Install();
 }
 
 void Forklift::destroy()
